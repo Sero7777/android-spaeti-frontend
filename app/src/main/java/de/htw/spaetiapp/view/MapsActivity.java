@@ -2,7 +2,9 @@ package de.htw.spaetiapp.view;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +28,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
+    public void onAddSpaetiButtonClicked(View view) {
+        Intent intent = new Intent(this, AddSpaetiActivity.class);
+        startActivity(intent);
+    }
+
+    public void onListButtonClicked(View view) {
+        Intent intent = new Intent(this, ListViewActivity.class);
+        startActivity(intent);
+    }
+
 
 
     /**
