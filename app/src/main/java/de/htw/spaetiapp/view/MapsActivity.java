@@ -1,4 +1,4 @@
-package de.htw.spaetiapp;
+package de.htw.spaetiapp.view;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -10,6 +10,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import de.htw.spaetiapp.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

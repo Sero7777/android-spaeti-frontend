@@ -1,4 +1,23 @@
 <resources>
     <string name="app_name">SpaetiApp</string>
     <string name="title_activity_maps">Map</string>
+    <string name="action_sign_in">Login</string>
+    <string name="switch_to_register_activity">Create an Account?</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="dialog_add_spaeti">Add new Späti?</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_opening_time">Opening Time</string>
+    <string name="hint_closing_time">Closing Time</string>
+    <string name="hint_description">Description (Optional)</string>
+    <string name="hint_street">Street (Optional)</string>
+    <string name="hint_zip">Zip (Optional)</string>
+    <string name="hint_country">Country (Optional)</string>
+    <string name="hint_street_number">Number</string>
 </resources>

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import de.htw.spaetiapp.R;
+
 public class AddSpaetiActivity extends AppCompatActivity {
 
     @Override
