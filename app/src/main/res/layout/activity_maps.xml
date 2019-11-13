@@ -5,29 +5,62 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.MapsActivity" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="24dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@android:drawable/ic_input_add"
-            app:backgroundTint="#FFFFFF"
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="410dp"
+            android:layout_height="650dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".view.MapsActivity" />
+
+        <LinearLayout
+            android:id="@+id/footer"
+            style="@android:style/ButtonBar"
+            android:layout_width="406dp"
+            android:layout_height="79dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/map">
+
+            <Button
+                android:id="@+id/settingsButton"
+                android:layout_width="185dp"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:text="" />
+
+            <Button
+                android:id="@+id/editSpaetiButton"
+                android:layout_width="185dp"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:text="" />
+
+            <Button
+                android:id="@+id/listButton"
+                android:layout_width="198dp"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:onClick="onListButtonClicked"
+                android:text="" />
+
+            <Button
+                android:id="@+id/addSpaetiButton"
+                android:layout_width="185dp"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:onClick="onAddSpaetiButtonClicked"
+                android:text="" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
