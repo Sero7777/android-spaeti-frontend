@@ -4,19 +4,6 @@ import java.util.ArrayList;
 
 public class SpaetiRepository {
 
-//    private SpaetiRepository() {
-//        spaetiList = new ArrayList<>();
-//    }
-//    private ArrayList<Spaeti> spaetiList;
-//    private static final SpaetiRepository spaetiRepo = new SpaetiRepository();
-//    public static SpaetiRepository getSpaetiRepo() {
-//        return spaetiRepo;
-//    }
-//    public ArrayList<Spaeti> getSpaetiList() {
-//        return spaetiList;
-//    }
-
-
     private static SpaetiRepository spaetiRepo = null;
     private ArrayList<Spaeti> spaetiList;
 
@@ -34,4 +21,5 @@ public class SpaetiRepository {
         }
         return spaetiRepo;
     }
+
 }

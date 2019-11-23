@@ -1,11 +1,10 @@
-package de.htw.spaetiapp.view;
+package de.htw.spaetiapp.view.old;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,9 +13,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import de.htw.spaetiapp.R;
+import de.htw.spaetiapp.view.AddSpaetiFragment;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
