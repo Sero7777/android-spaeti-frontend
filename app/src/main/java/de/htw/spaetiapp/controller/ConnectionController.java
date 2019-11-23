@@ -7,13 +7,14 @@ public class ConnectionController {
 
     public ConnectionController() {
         this.socketIO = SocketIO.getInstance();
+        connectClient();
     }
 
     public SocketIO getConnection() {
         return socketIO;
     }
 
-    public void connectClient() {
+    private void connectClient() {
         socketIO.startConnection();
     }
 
