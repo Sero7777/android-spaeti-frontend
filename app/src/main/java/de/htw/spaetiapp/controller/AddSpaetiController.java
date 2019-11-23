@@ -19,4 +19,12 @@ public class AddSpaetiController {
         String spaetiJson =  gson.toJson(spaeti);
         socketIO.addSpaeti(spaetiJson);
     }
+
+    public void addSpaetiSuccess() {
+        //send info to the GUI
+    }
+
+    public void addSpaetiNotsuccess() {
+        //send info to the GUI
+    }
 }

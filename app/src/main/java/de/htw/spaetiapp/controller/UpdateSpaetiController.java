@@ -20,4 +20,13 @@ public class UpdateSpaetiController {
         String spaetiJson =  gson.toJson(spaeti);
         socketIO.updateSpaeti(spaetiJson);
     }
+
+    public void spaetiNotFound() {
+        // send info to GUI
+    }
+
+    public void updatedSpaeti(String data) {
+        Spaeti updatedSpaeti = gson.fromJson(data, Spaeti.class);
+        // send the spaeti to repo / gui
+    }
 }
