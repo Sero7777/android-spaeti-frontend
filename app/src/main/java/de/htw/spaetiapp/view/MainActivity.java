@@ -7,8 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import de.htw.spaetiapp.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private final Fragment mapsFragment = new MapsFragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment activeFragment = mapsFragment;
+    private boolean isLatestFragmentMap = true;
 
 
     @Override
@@ -28,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         //BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
 
 
         fm.beginTransaction().add(R.id.main_container, addSpaetiFragment).hide(addSpaetiFragment).commit();
@@ -48,8 +49,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onListNavButtonClicked(MenuItem item) {
-        fm.beginTransaction().hide(activeFragment).show(listFragment).commit();
-        activeFragment = listFragment;
+        if (activeFragment == listFragment && isLatestFragmentMap){
+            fm.beginTransaction().hide(activeFragment).show(mapsFragment).commit();
+            activeFragment = mapsFragment;
+            isLatestFragmentMap = true;
+        } else {
+            fm.beginTransaction().hide(activeFragment).show(listFragment).commit();
+            activeFragment = listFragment;
+            isLatestFragmentMap = false;
+        }
     }
 
 }
