@@ -3,10 +3,14 @@ package de.htw.spaetiapp.networking;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 
 import de.htw.spaetiapp.controller.AddSpaetiController;
+import de.htw.spaetiapp.controller.DeleteSpaetiController;
 import de.htw.spaetiapp.controller.UpdateSpaetiController;
 import de.htw.spaetiapp.models.Spaeti;
 
@@ -16,6 +20,7 @@ public class SocketIO {
     private Socket mSocket;
     private AddSpaetiController addController;
     private UpdateSpaetiController updateController;
+    private DeleteSpaetiController deleteController;
 
     private SocketIO() {
         try {
@@ -50,14 +55,20 @@ public class SocketIO {
     private void setListerner() {
         mSocket.on("addedSpaetiSuccessfully", spaetiAddSuccess);
         mSocket.on("couldNotAddSpaeti", spaetiAddNotSuccess);
-        mSocket.on("couldNotFindSpaetiInDB", spaetiNotFound );
+        mSocket.on("couldNotFindSpaetiInDB", spaetiNotFound);
         mSocket.on("updatedSpaetiSuccessfully", spaetiUpdateSuccess);
+        mSocket.on("couldNotUpdateSpaeti", spaetiUpdateNotSuccess);
+        mSocket.on("deletedSpaetiSuccessfully", spaetiDeleteSuccess);
+        mSocket.on("couldNotDeleteSpaeti", spaetiDeleteNotSuccess);
     }
 
     private Emitter.Listener spaetiAddSuccess = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            addController.addSpaetiSuccess();
+            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
+            JSONObject data = (JSONObject) args[0];
+            addController.addSpaetiSuccess(data);
+            //TODO check if works!!!!!!
         }
     };
 
@@ -68,7 +79,7 @@ public class SocketIO {
         }
     };
 
-    private  Emitter.Listener spaetiNotFound = new Emitter.Listener() {
+    private Emitter.Listener spaetiNotFound = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             updateController.spaetiNotFound();
@@ -78,10 +89,33 @@ public class SocketIO {
     private Emitter.Listener spaetiUpdateSuccess = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            //not sure which Type is correct
-            String data = (String) args[0];
+            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
+            JSONObject data = (JSONObject) args[0];
             updateController.updatedSpaeti(data);
+            //TODO check if works!!!!!!
+        }
+    };
+    private Emitter.Listener spaetiUpdateNotSuccess = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            updateController.spaetiNotUpdated();
+        }
+    };
 
+    private Emitter.Listener spaetiDeleteSuccess = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
+            JSONObject data = (JSONObject) args[0];
+            deleteController.spaetiDeleted(data);
+            //TODO check if works!!!!!!
+        }
+    };
+
+    private Emitter.Listener spaetiDeleteNotSuccess = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            deleteController.spaetiNotDeleted();
         }
     };
 }

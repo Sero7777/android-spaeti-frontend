@@ -10,6 +10,7 @@ public class ConnectionController {
         connectClient();
     }
 
+    //maybe useless
     public SocketIO getConnection() {
         return socketIO;
     }
