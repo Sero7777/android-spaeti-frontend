@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -20,9 +21,11 @@ import de.htw.spaetiapp.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MapsFragment extends Fragment {
+public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    MapView mapView;
+    View view;
 
 
     public MapsFragment() {
@@ -36,7 +39,18 @@ public class MapsFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+        view =  inflater.inflate(R.layout.fragment_maps, container, false);
+        return view;
+    }
+
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+        mapView = view.findViewById(R.id.map);
+        if (mapView!=null){
+            mapView.onCreate(null);
+            mapView.onResume();
+            mapView.getMapAsync(this);
+        }
     }
 
 
