@@ -17,6 +17,8 @@ import de.htw.spaetiapp.R;
 public class AddSpaetiFragment extends Fragment {
 
 
+
+
     public AddSpaetiFragment() {
         // Required empty public constructor
     }

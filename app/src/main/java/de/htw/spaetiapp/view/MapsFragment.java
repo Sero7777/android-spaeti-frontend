@@ -9,19 +9,16 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -34,7 +31,6 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-
 import de.htw.spaetiapp.R;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
@@ -104,6 +100,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         if (isLocationPermissionGranted()) {
             mGoogleMap.setMyLocationEnabled(true);
+            //mGoogleMap.setPadding(0,1600,0,0);
 
 
         } else {
