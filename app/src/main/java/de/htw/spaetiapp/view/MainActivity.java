@@ -5,14 +5,20 @@ import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.net.URISyntaxException;
+
 import de.htw.spaetiapp.R;
+import de.htw.spaetiapp.controller.ConnectionController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLatestFragmentMap = true;
 
     private Menu menu;
+
+    ConnectionController connectionController;
+
 
 
     @Override
@@ -41,6 +50,20 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, settingsFragment).hide(settingsFragment).commit();
         fm.beginTransaction().add(R.id.main_container, listFragment).hide(listFragment).commit();
         fm.beginTransaction().add(R.id.main_container, mapsFragment).commit();
+
+
+        connectionController = new ConnectionController();
+
+
+//        try {
+//            Socket mSocket = IO.socket("http://3.88.62.163:52300");
+//            mSocket.connect();
+//            Log.i("lol", Boolean.toString(mSocket.connected()));
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+
+
     }
 
     public void onAddSpaetiNavButtonClicked(MenuItem item) {
