@@ -50,8 +50,8 @@ public class AddSpaetiController {
             repository.addSpaeti(spaeti);
         }
 
-//        for (Spaeti spaeti: repository.getSpaetiList()) {
-//            System.out.println(spaeti);
-//        }
+        for (Spaeti spaeti: repository.getSpaetiList()) {
+            System.out.println(spaeti);
+        }
     }
 }
