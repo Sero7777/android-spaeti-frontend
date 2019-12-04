@@ -15,8 +15,8 @@ public class UpdateSpaetiController {
     private Gson gson;
     private SpaetiRepository repository;
 
-    public UpdateSpaetiController() {
-        this.socketIO = SocketIO.getInstance();
+    public UpdateSpaetiController(SocketIO socketIO) {
+        this.socketIO = socketIO;
         this.repository = SpaetiRepository.getInstance();
         gson = new Gson();
     }

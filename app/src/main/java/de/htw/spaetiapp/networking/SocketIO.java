@@ -108,6 +108,9 @@ public class SocketIO {
         }
         setListerner();
         addController = new AddSpaetiController(this);
+        deleteController = new DeleteSpaetiController(this);
+        updateController = new UpdateSpaetiController(this);
+        deleteController = new DeleteSpaetiController(this);
     }
 
     public static SocketIO getInstance() {
