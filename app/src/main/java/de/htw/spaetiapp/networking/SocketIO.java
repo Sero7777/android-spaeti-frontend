@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import de.htw.spaetiapp.controller.AddSpaetiController;
 import de.htw.spaetiapp.controller.DeleteSpaetiController;
 import de.htw.spaetiapp.controller.UpdateSpaetiController;
+import de.htw.spaetiapp.models.Spaeti;
 
 //this is a singleton btw
 public class SocketIO {
@@ -41,6 +42,18 @@ public class SocketIO {
                 e.printStackTrace();
             }
             addController.addInitialSpaeits(data);
+            Spaeti spaeti = new Spaeti();
+            spaeti.setCity("Berlin");
+            spaeti.setOpeningTime("12:00");
+            spaeti.setClosingTime("19:00");
+            spaeti.setCountry("Deutschland");
+            spaeti.setDescription("gute diese");
+            spaeti.setLat(13.37f);
+            spaeti.setLon(69.69f);
+            spaeti.setZip(12345);
+            spaeti.setStreetName("Hauptstr");
+            spaeti.setName("Haram Spätkauf");
+            addController.addSpaeti(spaeti);
         }
     };
     private Emitter.Listener spaetiAddSuccess = new Emitter.Listener() {
@@ -138,6 +151,8 @@ public class SocketIO {
     }
 
     public void addSpaeti(String spaeti) {
+        System.out.println("333333333333333333333333");
+        System.out.println(spaeti);
         mSocket.emit("addSpaeti", spaeti);
     }
 
