@@ -17,8 +17,6 @@ import de.htw.spaetiapp.R;
 public class AddSpaetiFragment extends Fragment {
 
 
-
-
     public AddSpaetiFragment() {
         // Required empty public constructor
     }
@@ -30,5 +28,4 @@ public class AddSpaetiFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_spaeti, container, false);
     }
-
 }

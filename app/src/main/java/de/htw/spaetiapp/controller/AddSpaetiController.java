@@ -14,6 +14,7 @@ import java.util.Collection;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
+import de.htw.spaetiapp.view.MainActivity;
 
 //TODO maybe singleton
 public class AddSpaetiController {
@@ -24,6 +25,12 @@ public class AddSpaetiController {
 
     public AddSpaetiController(SocketIO socketIO) {
         this.socketIO = socketIO;
+        this.repository = SpaetiRepository.getInstance();
+        gson = new Gson();
+    }
+
+    public AddSpaetiController(){
+        this.socketIO = SocketIO.getInstance();
         this.repository = SpaetiRepository.getInstance();
         gson = new Gson();
     }

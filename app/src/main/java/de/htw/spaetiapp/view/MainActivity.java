@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
@@ -18,7 +19,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.net.URISyntaxException;
 
 import de.htw.spaetiapp.R;
+import de.htw.spaetiapp.controller.AddSpaetiController;
 import de.htw.spaetiapp.controller.ConnectionController;
+import de.htw.spaetiapp.models.Spaeti;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Menu menu;
 
     ConnectionController connectionController;
+    AddSpaetiController addSpaetiController;
 
 
 
@@ -53,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         connectionController = new ConnectionController();
+        addSpaetiController = new AddSpaetiController();
+
 
 
 //        try {
@@ -112,4 +118,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    //TODO das ist nur ein TEST
+    public void onClick(View view) {
+        Spaeti spaeti = new Spaeti();
+        spaeti.setCity("Berlin");
+        spaeti.setOpeningTime("12:00");
+        spaeti.setClosingTime("19:00");
+        spaeti.setCountry("Deutschland");
+        spaeti.setDescription("gute diese");
+        spaeti.setLat(13.37f);
+        spaeti.setLon(69.69f);
+        spaeti.setZip(12345);
+        spaeti.setStreetName("Hauptstr");
+        spaeti.setName("Haram Spätkauf");
+        addSpaetiController.addSpaeti(spaeti);
+    }
 }
