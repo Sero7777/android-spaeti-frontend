@@ -7,6 +7,7 @@ public class ConnectionController {
 
     public ConnectionController() {
         this.socketIO = SocketIO.getInstance();
+        System.out.println("-------- SocketIO Instance has been retrieved -----------");
         connectClient();
     }
 
@@ -16,6 +17,7 @@ public class ConnectionController {
     }
 
     private void connectClient() {
+        System.out.println("-------- started socketIO connection -----------");
         socketIO.startConnection();
     }
 
