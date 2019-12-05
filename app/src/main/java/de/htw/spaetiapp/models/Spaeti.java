@@ -12,6 +12,7 @@ public class Spaeti {
     private String city;
     private int zip;
     private String country;
+    private String id;
 
     public String getName() {
         return name;
@@ -92,4 +93,8 @@ public class Spaeti {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
 }
