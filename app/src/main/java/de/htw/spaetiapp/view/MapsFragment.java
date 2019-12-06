@@ -31,13 +31,18 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import de.htw.spaetiapp.R;
+import de.htw.spaetiapp.models.Spaeti;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static de.htw.spaetiapp.util.Constants.MY_REQUEST_INT;
 import static de.htw.spaetiapp.util.Constants.REQUEST_CHECK_SETTINGS;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mGoogleMap;
     private MapView mMapView;
@@ -111,6 +116,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         checkIfLocationIsEnabled();
 
+        Spaeti s = new Spaeti();
+        s.setLat(50.0f);
+        s.setLon(50.0f);
+        s.setCity("BE");
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLat(),s.getLon()))).setTag(s);
+
+        SpaetiInfoWindowAdapter adapter = new SpaetiInfoWindowAdapter(this.getActivity());
+
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
+        googleMap.setInfoWindowAdapter(adapter);
+        googleMap.setOnInfoWindowClickListener(this);
     }
 
 
@@ -200,4 +216,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    public void addMarker(Spaeti obj){
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLat(),obj.getLon()))).setTag(obj);
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        marker.showInfoWindow();
+    }
 }
