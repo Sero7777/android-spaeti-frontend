@@ -19,7 +19,7 @@ public class TimeViewListener implements View.OnClickListener {
         mTimePicker = new TimePickerDialog(v.getContext(),2, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                view.setText( selectedHour + ":" + selectedMinute);
+                view.setText(String.format("%02d:%02d", selectedHour, selectedMinute));
             }
         }, 0, 0, true);//Yes 24 hour time
         mTimePicker.setTitle("Select Time");

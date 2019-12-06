@@ -9,16 +9,21 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
+
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -34,6 +39,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.models.Spaeti;
@@ -42,11 +48,15 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 import static de.htw.spaetiapp.util.Constants.MY_REQUEST_INT;
 import static de.htw.spaetiapp.util.Constants.REQUEST_CHECK_SETTINGS;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private GoogleMap mGoogleMap;
     private MapView mMapView;
     private View mView;
+    private FloatingActionButton editButton;
+    private FloatingActionButton deleteButton;
+    private  Animation scaleUp;
+    private  Animation scaleDown;
 
     public MapsFragment() {
         // Required empty public constructor
@@ -73,6 +83,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         rlp.setMargins(0, 0, 30, 30);
 
+        editButton = mView.findViewById(R.id.editFloatingActionButton);
+        deleteButton = mView.findViewById(R.id.deleteFloatingActionButton);
+        scaleUp = AnimationUtils.loadAnimation(getContext(), R.anim.scale_up);
+        scaleDown = AnimationUtils.loadAnimation(getContext(), R.anim.scale_down);
+        editButton.setVisibility(View.INVISIBLE);
+        deleteButton.setVisibility(View.INVISIBLE);
         return mView;
 
 
@@ -117,16 +133,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         checkIfLocationIsEnabled();
 
         Spaeti s = new Spaeti();
+        s.setName("DickerDicker");
         s.setLat(50.0f);
         s.setLon(50.0f);
-        s.setCity("BE");
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLat(),s.getLon()))).setTag(s);
+        s.setCity("Keklin");
+        s.setStreetName("JESStraße 14");
+        s.setDescription("GeJessen GeJessen GeJessen");
+        s.setId("1");
+        s.setOpeningTime("14:50");
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLat(), s.getLon()))).setTag(s);
 
         SpaetiInfoWindowAdapter adapter = new SpaetiInfoWindowAdapter(this.getActivity());
 
         googleMap.getUiSettings().setMapToolbarEnabled(false);
         googleMap.setInfoWindowAdapter(adapter);
-        googleMap.setOnInfoWindowClickListener(this);
+        googleMap.setOnMarkerClickListener(this);
+        googleMap.setOnMapClickListener(this);
     }
 
 
@@ -149,7 +171,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         final LocationManager manager = (LocationManager) this.getContext().getSystemService(Context.LOCATION_SERVICE);
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-           // buildAlertMessageNoGps();
+            // buildAlertMessageNoGps();
             displayLocationSettingsRequest(getContext());
 
         }
@@ -216,12 +238,29 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         });
     }
 
-    public void addMarker(Spaeti obj){
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLat(),obj.getLon()))).setTag(obj);
+    public void addMarker(Spaeti obj) {
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLat(), obj.getLon()))).setTag(obj);
     }
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
-        marker.showInfoWindow();
+    public boolean onMarkerClick(Marker marker) {
+        if(editButton.getVisibility() == View.VISIBLE || deleteButton.getVisibility() == View.VISIBLE){
+
+        }else{
+        editButton.setVisibility(View.VISIBLE);
+        deleteButton.setVisibility(View.VISIBLE);
+        editButton.startAnimation(scaleUp);
+        deleteButton.startAnimation(scaleUp);
+        marker.showInfoWindow();}
+        return true;
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        editButton.startAnimation(scaleDown);
+        deleteButton.startAnimation(scaleDown);
+        editButton.setVisibility(View.INVISIBLE);
+        deleteButton.setVisibility(View.INVISIBLE);
+
     }
 }
