@@ -116,6 +116,19 @@ public class SocketIO {
             deleteController.spaetiNotDeleted();
         }
     };
+    private Emitter.Listener test = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("--------- Server working ---------");
+        }
+    };
+    private Emitter.Listener test2 = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("--------- Server working Pt 2 ---------");
+
+        }
+    };
 
     private SocketIO() {
         try {
@@ -145,7 +158,7 @@ public class SocketIO {
 
     private void setListerner() {
 
-        mSocket.on("fetchAllSpaetis", spaetisFetched);
+        mSocket.on("fetch", spaetisFetched);
         mSocket.on("addedSpaetiSuccessfully", spaetiAddSuccess);
         mSocket.on("couldNotAddSpaeti", spaetiAddNotSuccess);
         mSocket.on("couldNotFindSpaetiInDB", spaetiNotFound);
@@ -153,6 +166,8 @@ public class SocketIO {
         mSocket.on("couldNotUpdateSpaeti", spaetiUpdateNotSuccess);
         mSocket.on("deletedSpaetiSuccessfully", spaetiDeleteSuccess);
         mSocket.on("couldNotDeleteSpaeti", spaetiDeleteNotSuccess);
+        mSocket.on("test", test);
+        mSocket.on("test2", test2);
 
         System.out.println("-------- SocketIO Event Listeners have been set -----------");
 
