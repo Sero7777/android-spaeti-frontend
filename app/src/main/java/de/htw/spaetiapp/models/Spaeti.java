@@ -6,12 +6,13 @@ public class Spaeti {
     private String openingTime;
     private String closingTime;
     private String description;
-    private float lon;
-    private float lat;
+    private float longitude;
+    private float latitude;
     private String streetName;
     private String city;
     private int zip;
     private String country;
+
     private String id;
 
     public String getName() {
@@ -31,11 +32,11 @@ public class Spaeti {
     }
 
     public float getLon() {
-        return lon;
+        return longitude;
     }
 
     public float getLat() {
-        return lat;
+        return latitude;
     }
 
     public String getStreetName() {
@@ -71,11 +72,11 @@ public class Spaeti {
     }
 
     public void setLon(float lon) {
-        this.lon = lon;
+        this.longitude = lon;
     }
 
     public void setLat(float lat) {
-        this.lat = lat;
+        this.latitude = lat;
     }
 
     public void setStreetName(String streetName) {
@@ -97,4 +98,21 @@ public class Spaeti {
     public String getId() { return id; }
 
     public void setId(String id) { this.id = id; }
+
+    @Override
+    public String toString() {
+        return getName() + "\n" +
+                getLat() + "\n" +
+                getLon() + "\n" +
+                getOpeningTime() + "\n" +
+                getClosingTime() + "\n" +
+                getStreetName() + "\n" +
+                getDescription() + "\n" +
+                getCity() + "\n" +
+                getZip() + "\n" +
+                getCountry() + "\n" +
+                getId();
+        //TODO prints biug weird lol rofl lmao
+    }
+
 }

@@ -15,8 +15,8 @@ public class DeleteSpaetiController {
     private Gson gson;
     private SpaetiRepository repository;
 
-    public DeleteSpaetiController() {
-        this.socketIO = SocketIO.getInstance();
+    public DeleteSpaetiController(SocketIO socketIO) {
+        this.socketIO = socketIO;
         this.repository = SpaetiRepository.getInstance();
         gson = new Gson();
     }

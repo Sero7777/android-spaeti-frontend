@@ -56,20 +56,20 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TimePicker
-        android:id="@+id/timePicker2"
+        android:id="@+id/openingTime"
         android:layout_width="36dp"
         android:layout_height="33dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/addDescription"
-        app:layout_constraintEnd_toStartOf="@+id/timePicker"
+        app:layout_constraintEnd_toStartOf="@+id/closingTime"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addName" />
 
     <TimePicker
-        android:id="@+id/timePicker"
+        android:id="@+id/closingTime"
         android:layout_width="36dp"
         android:layout_height="33dp"
         android:layout_marginTop="24dp"
@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toTopOf="@+id/addDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/timePicker2"
+        app:layout_constraintStart_toEndOf="@+id/openingTime"
         app:layout_constraintTop_toBottomOf="@+id/addName" />
 
     <EditText
@@ -95,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePicker2" />
+        app:layout_constraintTop_toBottomOf="@+id/openingTime" />
 
     <EditText
         android:id="@+id/addNumber"

@@ -1,8 +1,15 @@
 package de.htw.spaetiapp.controller;
 
-import com.google.gson.Gson;
+import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
@@ -15,14 +22,14 @@ public class AddSpaetiController {
     private Gson gson;
     private SpaetiRepository repository;
 
-    public AddSpaetiController() {
-        this.socketIO = SocketIO.getInstance();
+    public AddSpaetiController(SocketIO socketIO) {
+        this.socketIO = socketIO;
         this.repository = SpaetiRepository.getInstance();
         gson = new Gson();
     }
 
-    public void addSpaeti(Spaeti spaeti){
-        String spaetiJson =  gson.toJson(spaeti);
+    public void addSpaeti(Spaeti spaeti) {
+        String spaetiJson = gson.toJson(spaeti);
         socketIO.addSpaeti(spaetiJson);
     }
 
@@ -34,5 +41,17 @@ public class AddSpaetiController {
 
     public void addSpaetiNotsuccess() {
         //send info to the GUI
+    }
+
+    public void addInitialSpaeits(JSONArray data) {
+        Spaeti[] spaetis = gson.fromJson(data.toString(), Spaeti[].class);
+
+        for (Spaeti spaeti : spaetis) {
+            repository.addSpaeti(spaeti);
+        }
+
+        for (Spaeti spaeti: repository.getSpaetiList()) {
+            System.out.println(spaeti);
+        }
     }
 }
