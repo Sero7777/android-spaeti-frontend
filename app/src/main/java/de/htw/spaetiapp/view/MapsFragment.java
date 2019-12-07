@@ -244,9 +244,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if(editButton.getVisibility() == View.VISIBLE || deleteButton.getVisibility() == View.VISIBLE){
-
-        }else{
+        if (editButton.getVisibility() != View.VISIBLE && deleteButton.getVisibility() != View.VISIBLE) {
         editButton.setVisibility(View.VISIBLE);
         deleteButton.setVisibility(View.VISIBLE);
         editButton.startAnimation(scaleUp);
@@ -255,12 +253,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         return true;
     }
 
+
     @Override
     public void onMapClick(LatLng latLng) {
-        editButton.startAnimation(scaleDown);
-        deleteButton.startAnimation(scaleDown);
-        editButton.setVisibility(View.INVISIBLE);
-        deleteButton.setVisibility(View.INVISIBLE);
-
+        if (editButton.getVisibility() != View.INVISIBLE && deleteButton.getVisibility() != View.INVISIBLE) {
+            editButton.startAnimation(scaleDown);
+            deleteButton.startAnimation(scaleDown);
+            editButton.setVisibility(View.INVISIBLE);
+            deleteButton.setVisibility(View.INVISIBLE);
+        }
     }
 }

@@ -6,8 +6,8 @@ public class Spaeti {
     private String openingTime;
     private String closingTime;
     private String description;
-    private float longitude;
-    private float latitude;
+    private double longitude;
+    private double latitude;
     private String streetName;
     private String city;
     private int zip;
@@ -39,11 +39,11 @@ public class Spaeti {
         return description;
     }
 
-    public float getLon() {
+    public double getLon() {
         return longitude;
     }
 
-    public float getLat() {
+    public double getLat() {
         return latitude;
     }
 
@@ -79,11 +79,11 @@ public class Spaeti {
         this.description = description;
     }
 
-    public void setLon(float lon) {
+    public void setLon(double lon) {
         this.longitude = lon;
     }
 
-    public void setLat(float lat) {
+    public void setLat(double lat) {
         this.latitude = lat;
     }
 

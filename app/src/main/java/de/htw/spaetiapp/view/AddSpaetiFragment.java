@@ -1,6 +1,9 @@
 package de.htw.spaetiapp.view;
 
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,7 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.List;
 
 import de.htw.spaetiapp.controller.AddSpaetiController;
 import de.htw.spaetiapp.models.Spaeti;
@@ -34,6 +42,7 @@ public class AddSpaetiFragment extends Fragment {
     private EditText zip;
     private EditText address;
     private EditText country;
+    private EditText city;
     private AddSpaetiController addSpaetiController;
 
 
@@ -60,11 +69,12 @@ public class AddSpaetiFragment extends Fragment {
 
         spaetiName = view.findViewById(R.id.addName);
         addButton = view.findViewById(R.id.addButton);
-        country = view.findViewById(R.id.addCountry);
+        country = view.findViewById(R.id.addCity);
         address = view.findViewById(R.id.addAddress);
         zip = view.findViewById(R.id.addZip);
         description = view.findViewById(R.id.addDescription);
         number = view.findViewById(R.id.addNumber);
+        city = view.findViewById(R.id.addCity);
 
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -90,15 +100,23 @@ public class AddSpaetiFragment extends Fragment {
                 spaeti.setStreetName(address.getText().toString() + " " + number.getText().toString());
                 spaeti.setName(spaetiName.getText().toString());
                 spaeti.setZip(Integer.parseInt(zip.getText().toString()));
+                spaeti.setCity(city.getText().toString());
 
-                // dummy maessig
-                spaeti.setCity("Berlin");
-
-                try {
-                    addSpaetiController.addSpaeti(spaeti);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                LatLng latlong = getLocationFromAddress(getContext(), spaeti.getStreetName() + " " + spaeti.getZip() + " " + spaeti.getCity());
+                if(null != latlong) {
+                    spaeti.setLat(latlong.latitude);
+                    spaeti.setLon(latlong.longitude);
+                    try {
+                        addSpaetiController.addSpaeti(spaeti);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
+                else{
+                    //TODO TOAST error invalid adress
+                }
+
+
             }
         });
 
@@ -114,4 +132,30 @@ public class AddSpaetiFragment extends Fragment {
         return textView.getText().toString().equalsIgnoreCase("Opening Time") || textView.getText().toString().equalsIgnoreCase("Closing Time");
 
     }
+
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+
+        Geocoder coder = new Geocoder(getContext());
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null || address.isEmpty()) {
+                return null;
+            }
+
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
+    }
+
 }
