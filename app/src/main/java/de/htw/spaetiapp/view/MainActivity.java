@@ -18,7 +18,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.net.URISyntaxException;
 
 import de.htw.spaetiapp.R;
+
+import de.htw.spaetiapp.models.Spaeti;
+import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.controller.ConnectionController;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     final FragmentManager fm = getSupportFragmentManager();
     Fragment activeFragment = mapsFragment;
     private boolean isLatestFragmentMap = true;
+    private static SpaetiRepository repo = SpaetiRepository.getInstance();
 
     private Menu menu;
 
@@ -70,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().hide(activeFragment).show(addSpaetiFragment).commit();
         activeFragment = addSpaetiFragment;
         assignMiddleBarButtonIcon();
+    }
+
+    public void AddSpaetiToRepo(Spaeti obj){
+        repo.addSpaeti(obj);
+      //  MapsFragment fragment = fm.findFragmentById(R.id.mapFragment);
+       // fragment.yourPublicMethod();
+        ((MapsFragment)mapsFragment).addMarker(obj);
     }
 
     private void assignMiddleBarButtonIcon() {
