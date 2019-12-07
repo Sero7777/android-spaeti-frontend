@@ -14,6 +14,7 @@ public class Spaeti {
     private String country;
     private String _id;
 
+
     public String get_id() {
         return _id;
     }
@@ -21,7 +22,7 @@ public class Spaeti {
     public void set_id(String _id) {
         this._id = _id;
     }
-
+   
     public String getName() {
         return name;
     }
@@ -102,6 +103,10 @@ public class Spaeti {
         this.country = country;
     }
 
+    public String getId() { return id; }
+
+    public void setId(String id) { this.id = id; }
+
     @Override
     public String toString() {
         return getName() + "\n" +
@@ -117,4 +122,5 @@ public class Spaeti {
                 get_id();
         //TODO prints biug weird lol rofl lmao
     }
+
 }
