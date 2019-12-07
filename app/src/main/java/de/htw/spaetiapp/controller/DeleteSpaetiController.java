@@ -8,7 +8,6 @@ import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
 
-//TODO maybe singleton
 public class DeleteSpaetiController {
 
     private SocketIO socketIO;
@@ -21,18 +20,23 @@ public class DeleteSpaetiController {
         gson = new Gson();
     }
 
-    public void deleteSpaeti(Spaeti spaeti){
-        String spaetiJson =  gson.toJson(spaeti);
-        socketIO.deleteSpaeti(spaetiJson);
+    public void deleteSpaeti(String id){
+        socketIO.deleteSpaeti(id);
     }
 
-    public void spaetiDeleted(JSONObject data) {
-        Spaeti spaeti = gson.fromJson(data.toString(), Spaeti.class);
-        repository.deleteSpaeti(spaeti);
+    public void spaetiDeleted(String id) {
+
+        if(!repository.deleteSpaeti(id)){
+            System.out.println("could not delete spaeti with id in repo " +id);
+        } else {
+            System.out.println("spaeti with id " + id + " has successfully been removed from repo");
+            // TODO map marker löschen
+        }
         //Send data to repo
     }
 
     public void spaetiNotDeleted() {
         // Send Data to GUI
+        // TODO toast could not delete blabla
     }
 }

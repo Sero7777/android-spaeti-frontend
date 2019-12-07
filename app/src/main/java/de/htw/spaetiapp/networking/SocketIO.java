@@ -86,9 +86,8 @@ public class SocketIO {
     private Emitter.Listener spaetiDeleteSuccess = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
-            JSONObject data = (JSONObject) args[0];
-            deleteController.spaetiDeleted(data);
+            String id = (String) args[0];
+            deleteController.spaetiDeleted(id);
             //TODO check if works!!!!!!
         }
     };
@@ -120,14 +119,14 @@ public class SocketIO {
 
     public void startConnection() {
         mSocket.connect();
-        Log.i("lol", "startconnection has been inviked");
+        Log.i("lol", "startconnection has been invoked");
         boolean test = mSocket.connected();
         Log.i("lol", Boolean.toString(test));
 
     }
 
     private void setListerner() {
-        mSocket.on("fetchAllSpaetis", spaetisFetched);
+        mSocket.on("fetch", spaetisFetched);
         mSocket.on("addedSpaetiSuccessfully", spaetiAddSuccess);
         mSocket.on("couldNotAddSpaeti", spaetiAddNotSuccess);
         mSocket.on("couldNotFindSpaetiInDB", spaetiNotFound);
@@ -137,16 +136,16 @@ public class SocketIO {
         mSocket.on("couldNotDeleteSpaeti", spaetiDeleteNotSuccess);
     }
 
-    public void addSpaeti(String spaeti) {
+    public void addSpaeti(JSONObject spaeti) {
         mSocket.emit("addSpaeti", spaeti);
     }
 
-    public void updateSpaeti(String spaeti) {
+    public void updateSpaeti(JSONObject spaeti) {
         mSocket.emit("updateSpaeti", spaeti);
     }
 
-    public void deleteSpaeti(String spaeti) {
-        mSocket.emit("deleteSpaeti", spaeti);
+    public void deleteSpaeti(String id) {
+        mSocket.emit("deleteSpaeti", id);
     }
 
 

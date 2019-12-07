@@ -60,15 +60,6 @@ public class MainActivity extends AppCompatActivity {
         connectionController = new ConnectionController();
 
 
-//        try {
-//            Socket mSocket = IO.socket("http://3.88.62.163:52300");
-//            mSocket.connect();
-//            Log.i("lol", Boolean.toString(mSocket.connected()));
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
-
-
     }
 
     public void onAddSpaetiNavButtonClicked(MenuItem item) {

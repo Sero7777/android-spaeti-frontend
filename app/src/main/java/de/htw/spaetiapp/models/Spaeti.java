@@ -13,7 +13,15 @@ public class Spaeti {
     private int zip;
     private String country;
 
-    private String id;
+    private String _id;
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
 
     public String getName() {
         return name;
@@ -95,9 +103,6 @@ public class Spaeti {
         this.country = country;
     }
 
-    public String getId() { return id; }
-
-    public void setId(String id) { this.id = id; }
 
     @Override
     public String toString() {
@@ -111,8 +116,7 @@ public class Spaeti {
                 getCity() + "\n" +
                 getZip() + "\n" +
                 getCountry() + "\n" +
-                getId();
-        //TODO prints biug weird lol rofl lmao
+                get_id();
     }
 
 }

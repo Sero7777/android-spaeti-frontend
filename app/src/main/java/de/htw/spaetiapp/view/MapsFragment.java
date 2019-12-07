@@ -139,7 +139,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         s.setCity("Keklin");
         s.setStreetName("JESStraße 14");
         s.setDescription("GeJessen GeJessen GeJessen");
-        s.setId("1");
+        s.set_id("1");
         s.setOpeningTime("14:50");
         googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLat(), s.getLon()))).setTag(s);
 

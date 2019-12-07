@@ -22,20 +22,34 @@ public class SpaetiRepository {
         return instance;
     }
 
-    public void addSpaeti(Spaeti spaeti) {
-        spaetiList.add(spaeti);
+    public boolean addSpaeti(Spaeti spaeti) {
+        return spaetiList.add(spaeti);
     }
 
-    public void updateSpaeti(Spaeti spaeti){
+    public Spaeti updateSpaeti(Spaeti spaeti) {
         //discuss how to implement this
         //maybe with indexOf and set
         //or if update was success, delete old entry and replace with new??
+
+
+        spaetiList.forEach(spaetiFromRepo -> {
+            if (spaetiFromRepo.get_id().equals(spaeti.get_id())) {
+                    spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);
+            }
+        });
+        return null;
     }
 
-    public void deleteSpaeti(Spaeti spaeti){
+    public boolean deleteSpaeti(String id) {
         //maybe problematic since the object in the list is a different one than the one from the server
         // even though the attributes are the same, different reference
-        spaetiList.remove(spaeti);
+
+        spaetiList.forEach(spaeti -> {
+            if (spaeti.get_id().equals(id)) {
+                spaetiList.remove(spaeti);
+            }
+        });
+        return false;
     }
 
 }
