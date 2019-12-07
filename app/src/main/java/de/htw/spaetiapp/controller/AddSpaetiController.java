@@ -1,21 +1,15 @@
 package de.htw.spaetiapp.controller;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
 
-//TODO maybe singleton
 public class AddSpaetiController {
 
     private SocketIO socketIO;
@@ -28,19 +22,31 @@ public class AddSpaetiController {
         gson = new Gson();
     }
 
-    public void addSpaeti(Spaeti spaeti) {
-        String spaetiJson = gson.toJson(spaeti);
+    public AddSpaetiController() {
+        this.socketIO = SocketIO.getInstance();
+        this.repository = SpaetiRepository.getInstance();
+        gson = new Gson();
+    }
+
+    public void addSpaeti(Spaeti spaeti) throws JSONException {
+        JSONObject spaetiJson = new JSONObject(gson.toJson(spaeti));
         socketIO.addSpaeti(spaetiJson);
     }
 
     public void addSpaetiSuccess(JSONObject data) {
         Spaeti spaeti = gson.fromJson(data.toString(), Spaeti.class);
-        repository.addSpaeti(spaeti);
-        //send info to the repo
+        if(!repository.addSpaeti(spaeti)){
+            System.out.println("Spaeti could not be added to repository");
+        } else {
+            System.out.println("Spaeti has succesfully been added to repository");
+            // TODO set marker, take spaeti instance from above
+        }
+
     }
 
     public void addSpaetiNotsuccess() {
-        //send info to the GUI
+        System.out.println("Spaeti could not be added to repository");
+        // TODO toast message oder so
     }
 
     public void addInitialSpaeits(JSONArray data) {
