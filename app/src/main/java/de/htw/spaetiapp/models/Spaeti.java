@@ -14,11 +14,11 @@ public class Spaeti {
     private String country;
     private String _id;
 
-    public String getId() {
+    public String get_id() {
         return _id;
     }
 
-    public void setId(String _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 
@@ -114,7 +114,7 @@ public class Spaeti {
                 getCity() + "\n" +
                 getZip() + "\n" +
                 getCountry() + "\n" +
-                getId();
+                get_id();
         //TODO prints biug weird lol rofl lmao
     }
 }

@@ -32,7 +32,7 @@ public class SocketIO {
     private Emitter.Listener spaetisFetched = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            System.out.println("--------------------------------");
+            System.out.println("----------------- Fetch all spaetis event has been invoked ---------------");
 
             JSONArray data = null;
 
@@ -42,18 +42,22 @@ public class SocketIO {
                 e.printStackTrace();
             }
             addController.addInitialSpaeits(data);
-            Spaeti spaeti = new Spaeti();
-            spaeti.setCity("Berlin");
-            spaeti.setOpeningTime("12:00");
-            spaeti.setClosingTime("19:00");
-            spaeti.setCountry("Deutschland");
-            spaeti.setDescription("gute diese");
-            spaeti.setLat(13.37f);
-            spaeti.setLon(69.69f);
-            spaeti.setZip(12345);
-            spaeti.setStreetName("Hauptstr");
-            spaeti.setName("Haram Spätkauf");
-            addController.addSpaeti(spaeti);
+//            Spaeti spaeti = new Spaeti();
+//            spaeti.setCity("Berlin");
+//            spaeti.setOpeningTime("12:00");
+//            spaeti.setClosingTime("19:00");
+//            spaeti.setCountry("Deutschland");
+//            spaeti.setDescription("gute diese");
+//            spaeti.setLat(13.37f);
+//            spaeti.setLon(69.69f);
+//            spaeti.setZip(12345);
+//            spaeti.setStreetName("Hauptstr");
+//            spaeti.setName("Haram Spätkauf");
+//            try {
+//                addController.addSpaeti(spaeti);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
         }
     };
     private Emitter.Listener spaetiAddSuccess = new Emitter.Listener() {
@@ -112,6 +116,19 @@ public class SocketIO {
             deleteController.spaetiNotDeleted();
         }
     };
+    private Emitter.Listener test = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("--------- Server working ---------");
+        }
+    };
+    private Emitter.Listener test2 = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("--------- Server working Pt 2 ---------");
+
+        }
+    };
 
     private SocketIO() {
         try {
@@ -133,14 +150,15 @@ public class SocketIO {
 
     public void startConnection() {
         mSocket.connect();
-        Log.i("lol", "startconnection has been inviked");
-        boolean test = mSocket.connected();
-        Log.i("lol", Boolean.toString(test));
+        System.out.println("-------- SocketIO Connection has been initialized -----------");
+
+
 
     }
 
     private void setListerner() {
-        mSocket.on("fetchAllSpaetis", spaetisFetched);
+
+        mSocket.on("fetch", spaetisFetched);
         mSocket.on("addedSpaetiSuccessfully", spaetiAddSuccess);
         mSocket.on("couldNotAddSpaeti", spaetiAddNotSuccess);
         mSocket.on("couldNotFindSpaetiInDB", spaetiNotFound);
@@ -148,9 +166,14 @@ public class SocketIO {
         mSocket.on("couldNotUpdateSpaeti", spaetiUpdateNotSuccess);
         mSocket.on("deletedSpaetiSuccessfully", spaetiDeleteSuccess);
         mSocket.on("couldNotDeleteSpaeti", spaetiDeleteNotSuccess);
+        mSocket.on("test", test);
+        mSocket.on("test2", test2);
+
+        System.out.println("-------- SocketIO Event Listeners have been set -----------");
+
     }
 
-    public void addSpaeti(String spaeti) {
+    public void addSpaeti(JSONObject spaeti) {
         System.out.println("333333333333333333333333");
         System.out.println(spaeti);
         mSocket.emit("addSpaeti", spaeti);

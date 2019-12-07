@@ -55,20 +55,7 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, listFragment).hide(listFragment).commit();
         fm.beginTransaction().add(R.id.main_container, mapsFragment).commit();
 
-
         connectionController = new ConnectionController();
-        addSpaetiController = new AddSpaetiController();
-
-
-
-//        try {
-//            Socket mSocket = IO.socket("http://3.88.62.163:52300");
-//            mSocket.connect();
-//            Log.i("lol", Boolean.toString(mSocket.connected()));
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
-
 
     }
 
@@ -132,6 +119,5 @@ public class MainActivity extends AppCompatActivity {
         spaeti.setZip(12345);
         spaeti.setStreetName("Hauptstr");
         spaeti.setName("Haram Spätkauf");
-        addSpaetiController.addSpaeti(spaeti);
     }
 }

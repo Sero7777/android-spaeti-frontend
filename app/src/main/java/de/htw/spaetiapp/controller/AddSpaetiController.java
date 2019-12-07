@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -35,15 +36,14 @@ public class AddSpaetiController {
         gson = new Gson();
     }
 
-    public void addSpaeti(Spaeti spaeti) {
-        String spaetiJson = gson.toJson(spaeti);
+    public void addSpaeti(Spaeti spaeti) throws JSONException {
+        JSONObject spaetiJson = new JSONObject(gson.toJson(spaeti));
         socketIO.addSpaeti(spaetiJson);
     }
 
     public void addSpaetiSuccess(JSONObject data) {
         Spaeti spaeti = gson.fromJson(data.toString(), Spaeti.class);
         repository.addSpaeti(spaeti);
-        //send info to the repo
     }
 
     public void addSpaetiNotsuccess() {
