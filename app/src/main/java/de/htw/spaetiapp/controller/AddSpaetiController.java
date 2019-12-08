@@ -67,7 +67,7 @@ public class AddSpaetiController {
 
     public void addSpaetiNotsuccess() {
         System.out.println("Spaeti could not be added to repository");
-        // TODO toast message oder so
+        // TODO toast message oder so vllt mit mainActivity.runOnUIThread
     }
 
     public void addInitialSpaeits(JSONArray data) {
@@ -76,6 +76,15 @@ public class AddSpaetiController {
         for (Spaeti spaeti : spaetis) {
             repository.addSpaeti(spaeti);
         }
+        //TODO alle init spaetis mit markern laden vllt so:
+//        for (Spaeti spaeti: spaetis) {
+//            mainActivity.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mainActivity.addd(spaeti);
+//                }
+//            });
+//        }
 
         for (Spaeti spaeti: repository.getSpaetiList()) {
             System.out.println(spaeti);
