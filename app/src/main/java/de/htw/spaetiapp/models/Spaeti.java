@@ -12,7 +12,6 @@ public class Spaeti {
     private String city;
     private int zip;
     private String country;
-
     private String _id;
 
     public String get_id() {
@@ -39,11 +38,11 @@ public class Spaeti {
         return description;
     }
 
-    public double getLon() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public double getLat() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -79,11 +78,11 @@ public class Spaeti {
         this.description = description;
     }
 
-    public void setLon(double lon) {
+    public void setLongitude(double lon) {
         this.longitude = lon;
     }
 
-    public void setLat(double lat) {
+    public void setLatitude(double lat) {
         this.latitude = lat;
     }
 
@@ -107,8 +106,8 @@ public class Spaeti {
     @Override
     public String toString() {
         return getName() + "\n" +
-                getLat() + "\n" +
-                getLon() + "\n" +
+                getLatitude() + "\n" +
+                getLongitude() + "\n" +
                 getOpeningTime() + "\n" +
                 getClosingTime() + "\n" +
                 getStreetName() + "\n" +

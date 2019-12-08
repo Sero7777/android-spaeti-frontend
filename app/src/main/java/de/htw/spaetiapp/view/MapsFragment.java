@@ -134,14 +134,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         Spaeti s = new Spaeti();
         s.setName("DickerDicker");
-        s.setLat(50.0f);
-        s.setLon(50.0f);
+        s.setLatitude(50.0f);
+        s.setLongitude(50.0f);
         s.setCity("Keklin");
         s.setStreetName("JESStraße 14");
         s.setDescription("GeJessen GeJessen GeJessen");
         s.set_id("1");
         s.setOpeningTime("14:50");
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLat(), s.getLon()))).setTag(s);
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLatitude(), s.getLongitude()))).setTag(s);
 
         SpaetiInfoWindowAdapter adapter = new SpaetiInfoWindowAdapter(this.getActivity());
 
@@ -240,7 +240,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     public void addMarker(Spaeti obj) {
         System.out.println(obj);
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLat(), obj.getLon()))).setTag(obj);
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLatitude(), obj.getLongitude()))).setTag(obj);
     }
 
     @Override

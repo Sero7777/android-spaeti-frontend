@@ -47,7 +47,12 @@ public class SocketIO {
         @Override
         public void call(final Object... args) {
             //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
-            JSONObject data = (JSONObject) args[0];
+            JSONObject data = null;
+            try {
+                data = ((JSONObject) args[0]).getJSONObject("spaeti");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             System.out.println("JSON DATA" + data);
             addController.addSpaetiSuccess(data);
             //TODO check if works!!!!!!

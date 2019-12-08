@@ -51,7 +51,7 @@ public class AddSpaetiController {
         if(!repository.addSpaeti(spaeti)){
             System.out.println("Spaeti could not be added to repository");
         } else {
-            System.out.println(spaeti+"ADDDDDDDDDDDDDDDDDDDDDDDD");
+            System.out.println(spaeti+"add Spaeti Succes");
             System.out.println("Spaeti has succesfully been added to repository");
             // TODO set marker, take spaeti instance from above
            // MapsFragment fragment =(MapsFragment)mainActivity.getMapsFragment();

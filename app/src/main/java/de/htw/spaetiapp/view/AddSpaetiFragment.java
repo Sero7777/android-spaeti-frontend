@@ -104,8 +104,8 @@ public class AddSpaetiFragment extends Fragment {
 
                 LatLng latlong = getLocationFromAddress(getContext(), spaeti.getStreetName() + " " + spaeti.getZip() + " " + spaeti.getCity());
                 if(null != latlong) {
-                    spaeti.setLat(latlong.latitude);
-                    spaeti.setLon(latlong.longitude);
+                    spaeti.setLatitude(latlong.latitude);
+                    spaeti.setLongitude(latlong.longitude);
                     try {
                         addSpaetiController.addSpaeti(spaeti);
                     } catch (JSONException e) {
