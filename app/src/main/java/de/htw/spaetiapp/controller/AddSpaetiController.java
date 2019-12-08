@@ -17,6 +17,7 @@ import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
 import de.htw.spaetiapp.view.AddSpaetiFragment;
+import de.htw.spaetiapp.view.MainActivity;
 import de.htw.spaetiapp.view.MapsFragment;
 
 public class AddSpaetiController {
@@ -24,19 +25,21 @@ public class AddSpaetiController {
     private SocketIO socketIO;
     private Gson gson;
     private SpaetiRepository repository;
+    private MainActivity mainActivity;
 
-    public AddSpaetiController(SocketIO socketIO) {
-        this.socketIO = socketIO;
-        this.repository = SpaetiRepository.getInstance();
-        gson = new Gson();
-    }
-
-    public AddSpaetiController() {
+    public AddSpaetiController(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
         this.socketIO = SocketIO.getInstance();
         this.repository = SpaetiRepository.getInstance();
         gson = new Gson();
-
     }
+
+//    public AddSpaetiController() {
+//        this.socketIO = SocketIO.getInstance();
+//        this.repository = SpaetiRepository.getInstance();
+//        gson = new Gson();
+//
+//    }
 
     public void addSpaeti(Spaeti spaeti) throws JSONException {
         JSONObject spaetiJson = new JSONObject(gson.toJson(spaeti));

@@ -106,10 +106,6 @@ public class SocketIO {
             e.printStackTrace();
         }
         setListerner();
-        addController = new AddSpaetiController(this);
-        deleteController = new DeleteSpaetiController(this);
-        updateController = new UpdateSpaetiController(this);
-        deleteController = new DeleteSpaetiController(this);
     }
 
     public static SocketIO getInstance() {
@@ -148,5 +144,15 @@ public class SocketIO {
         mSocket.emit("deleteSpaeti", id);
     }
 
+    public void setAddController(AddSpaetiController addController) {
+        this.addController = addController;
+    }
 
+    public void setUpdateController(UpdateSpaetiController updateController) {
+        this.updateController = updateController;
+    }
+
+    public void setDeleteController(DeleteSpaetiController deleteController) {
+        this.deleteController = deleteController;
+    }
 }

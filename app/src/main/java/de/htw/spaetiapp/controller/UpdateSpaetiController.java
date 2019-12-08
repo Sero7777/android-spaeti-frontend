@@ -8,15 +8,18 @@ import org.json.JSONObject;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
+import de.htw.spaetiapp.view.MainActivity;
 
 public class UpdateSpaetiController {
 
+    private MainActivity mainActivity;
     private SocketIO socketIO;
     private Gson gson;
     private SpaetiRepository repository;
 
-    public UpdateSpaetiController(SocketIO socketIO) {
-        this.socketIO = socketIO;
+    public UpdateSpaetiController(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+        this.socketIO = SocketIO.getInstance();
         this.repository = SpaetiRepository.getInstance();
         gson = new Gson();
     }

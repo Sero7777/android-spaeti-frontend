@@ -19,6 +19,9 @@ import java.net.URISyntaxException;
 
 import de.htw.spaetiapp.R;
 
+import de.htw.spaetiapp.controller.AddSpaetiController;
+import de.htw.spaetiapp.controller.DeleteSpaetiController;
+import de.htw.spaetiapp.controller.UpdateSpaetiController;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.controller.ConnectionController;
@@ -37,9 +40,23 @@ public class MainActivity extends AppCompatActivity {
 
     private Menu menu;
 
-    ConnectionController connectionController;
+    private ConnectionController connectionController;
+    private AddSpaetiController addSpaetiController;
+    private UpdateSpaetiController updateSpaetiController;
+    private DeleteSpaetiController deleteSpaetiController;
 
 
+    public AddSpaetiController getAddSpaetiController() {
+        return addSpaetiController;
+    }
+
+    public UpdateSpaetiController getUpdateSpaetiController() {
+        return updateSpaetiController;
+    }
+
+    public DeleteSpaetiController getDeleteSpaetiController() {
+        return deleteSpaetiController;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +74,10 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, mapsFragment).commit();
 
 
-        connectionController = new ConnectionController();
+        addSpaetiController = new AddSpaetiController(this);
+        updateSpaetiController = new UpdateSpaetiController(this);
+        deleteSpaetiController = new DeleteSpaetiController(this);
+        connectionController = new ConnectionController(addSpaetiController, updateSpaetiController, deleteSpaetiController);
 
 
     }

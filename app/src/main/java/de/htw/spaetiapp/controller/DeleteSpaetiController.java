@@ -7,15 +7,18 @@ import org.json.JSONObject;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
+import de.htw.spaetiapp.view.MainActivity;
 
 public class DeleteSpaetiController {
 
     private SocketIO socketIO;
     private Gson gson;
     private SpaetiRepository repository;
+    private MainActivity mainActivity;
 
-    public DeleteSpaetiController(SocketIO socketIO) {
-        this.socketIO = socketIO;
+    public DeleteSpaetiController(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+        this.socketIO = SocketIO.getInstance();
         this.repository = SpaetiRepository.getInstance();
         gson = new Gson();
     }

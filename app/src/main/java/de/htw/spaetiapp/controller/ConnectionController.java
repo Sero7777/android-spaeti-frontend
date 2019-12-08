@@ -5,8 +5,11 @@ import de.htw.spaetiapp.networking.SocketIO;
 public class ConnectionController {
     private SocketIO socketIO;
 
-    public ConnectionController() {
+    public ConnectionController(AddSpaetiController addSpaetiController, UpdateSpaetiController updateSpaetiController, DeleteSpaetiController deleteSpaetiController) {
         this.socketIO = SocketIO.getInstance();
+        socketIO.setAddController(addSpaetiController);
+        socketIO.setUpdateController(updateSpaetiController);
+        socketIO.setDeleteController(deleteSpaetiController);
         connectClient();
     }
 
