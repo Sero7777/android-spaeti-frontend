@@ -24,7 +24,7 @@ public class SocketIO {
 
     private UpdateSpaetiController updateController;
     private DeleteSpaetiController deleteController;
-    private final String URL = "http://3.88.62.163:52300";
+    private final String URL = "http://18.233.9.23:52300";
 //    private final String URL = "http://10.51.17.1:52300";
 
 
