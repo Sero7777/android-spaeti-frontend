@@ -16,50 +16,48 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:hint="@string/hint_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <EditText
-            android:id="@+id/addCountry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
-            android:hint="@string/hint_country"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/openingTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/addZip" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/addCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:ems="5"
+            android:hint="@string/hint_city"
+            app:layout_constraintBottom_toBottomOf="@+id/addZip"
+            app:layout_constraintStart_toStartOf="@+id/addButton"
+            app:layout_constraintTop_toTopOf="@+id/addZip"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/addAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
+            android:ems="7"
             android:hint="@string/hint_street"
             app:layout_constraintBottom_toTopOf="@+id/addZip"
-            app:layout_constraintEnd_toStartOf="@+id/addNumber"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addDescription" />
+            app:layout_constraintStart_toStartOf="@+id/addZip"
+            app:layout_constraintTop_toBottomOf="@+id/addDescription"
+            app:layout_constraintVertical_bias="0" />
 
         <EditText
             android:id="@+id/addZip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginBottom="24dp"
+            android:ems="4"
             android:hint="@string/hint_zip"
             android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/addCountry"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/addCountry"
+            app:layout_constraintStart_toStartOf="@+id/addCountry"
+            app:layout_constraintTop_toBottomOf="@+id/addAddress" />
 
         <EditText
             android:id="@+id/addDescription"
@@ -67,31 +65,28 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:ems="10"
+            android:ems="15"
             android:gravity="start|top"
             android:hint="@string/hint_description"
             android:inputType="textMultiLine"
             app:layout_constraintBottom_toTopOf="@+id/addAddress"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/addName"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addName" />
+            app:layout_constraintStart_toStartOf="@+id/addName"
+            app:layout_constraintTop_toBottomOf="@+id/openingTime" />
 
         <EditText
             android:id="@+id/addNumber"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
-            android:ems="10"
+            android:ems="4"
             android:hint="@string/hint_street_number"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/addCountry"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/addAddress"
-            app:layout_constraintTop_toBottomOf="@+id/addDescription"
-            app:layout_constraintVertical_bias="0.538" />
+            app:layout_constraintBottom_toBottomOf="@+id/addAddress"
+            app:layout_constraintStart_toStartOf="@+id/addCity"
+            app:layout_constraintTop_toTopOf="@+id/addAddress"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/openingTime"
@@ -113,22 +108,42 @@
             android:clickable="true"
             android:focusable="true"
             android:text="@string/hint_closing_time"
-            app:layout_constraintBottom_toTopOf="@+id/addDescription"
+            app:layout_constraintBottom_toBottomOf="@+id/openingTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/openingTime"
-            app:layout_constraintTop_toBottomOf="@+id/addName" />
+            app:layout_constraintTop_toTopOf="@+id/openingTime" />
 
         <Button
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="onClick"
-            android:text="Button"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="19dp" />
+            android:text="@string/add"
+            app:layout_constraintBottom_toBottomOf="@+id/addCountry"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/addCountry"
+            app:layout_constraintTop_toTopOf="@+id/addCountry"
+            app:layout_constraintVertical_bias="0.111" />
+
+        <EditText
+            android:id="@+id/addCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="24dp"
+            android:ems="6"
+            android:hint="@string/hint_country"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addZip" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
