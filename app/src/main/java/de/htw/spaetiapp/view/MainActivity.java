@@ -135,4 +135,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public Fragment getMapsFragment(){
+        return mapsFragment;
+    }
+
+    public void addd(Spaeti s){
+        MapsFragment fragment = (MapsFragment) mapsFragment;
+        fragment.addMarker(s);
+    }
+
 }

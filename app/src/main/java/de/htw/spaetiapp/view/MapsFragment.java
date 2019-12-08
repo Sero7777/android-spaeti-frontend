@@ -239,6 +239,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     public void addMarker(Spaeti obj) {
+        System.out.println(obj);
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLat(), obj.getLon()))).setTag(obj);
     }
 
