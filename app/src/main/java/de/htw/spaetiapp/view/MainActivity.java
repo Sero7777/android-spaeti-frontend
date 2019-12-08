@@ -37,9 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment activeFragment = mapsFragment;
     private boolean isLatestFragmentMap = true;
     private static SpaetiRepository repo = SpaetiRepository.getInstance();
-
     private Menu menu;
-
     private ConnectionController connectionController;
     private AddSpaetiController addSpaetiController;
     private UpdateSpaetiController updateSpaetiController;

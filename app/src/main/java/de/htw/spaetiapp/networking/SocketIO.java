@@ -24,7 +24,7 @@ public class SocketIO {
 
     private UpdateSpaetiController updateController;
     private DeleteSpaetiController deleteController;
-        private final String URL = "http://3.88.62.163:52300";
+    private final String URL = "http://3.88.62.163:52300";
 //    private final String URL = "http://10.51.17.1:52300";
 
 
@@ -40,7 +40,7 @@ public class SocketIO {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            addController.addInitialSpaeits(data);
+            addController.addInitialSpaetis(data);
         }
     };
     private Emitter.Listener spaetiAddSuccess = new Emitter.Listener() {
@@ -104,6 +104,12 @@ public class SocketIO {
             deleteController.spaetiNotDeleted();
         }
     };
+    private Emitter.Listener test = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+        }
+    };
 
     private SocketIO() {
         try {
@@ -121,7 +127,7 @@ public class SocketIO {
 
     public void startConnection() {
         mSocket.connect();
-        Log.i("lol", "startconnection has been invoked");
+        Log.i("lol", "start connection has been invoked");
         boolean test = mSocket.connected();
         Log.i("lol", Boolean.toString(test));
 
@@ -129,6 +135,7 @@ public class SocketIO {
 
     private void setListerner() {
         mSocket.on("fetch", spaetisFetched);
+        mSocket.on("test", test);
         mSocket.on("addedSpaetiSuccessfully", spaetiAddSuccess);
         mSocket.on("couldNotAddSpaeti", spaetiAddNotSuccess);
         mSocket.on("couldNotFindSpaetiInDB", spaetiNotFound);

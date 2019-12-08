@@ -70,21 +70,23 @@ public class AddSpaetiController {
         // TODO toast message oder so vllt mit mainActivity.runOnUIThread
     }
 
-    public void addInitialSpaeits(JSONArray data) {
+    public void addInitialSpaetis(JSONArray data) {
         Spaeti[] spaetis = gson.fromJson(data.toString(), Spaeti[].class);
-
+        System.out.println("I reached this pointAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         for (Spaeti spaeti : spaetis) {
             repository.addSpaeti(spaeti);
         }
         //TODO alle init spaetis mit markern laden vllt so:
-//        for (Spaeti spaeti: spaetis) {
-//            mainActivity.runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mainActivity.addd(spaeti);
-//                }
-//            });
-//        }
+
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    for (Spaeti spaeti: spaetis) {
+                        System.out.println(spaeti);
+                    mainActivity.addd(spaeti);
+                }}
+            });
+
 
         for (Spaeti spaeti: repository.getSpaetiList()) {
             System.out.println(spaeti);
