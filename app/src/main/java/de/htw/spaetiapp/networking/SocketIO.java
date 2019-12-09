@@ -92,17 +92,24 @@ public class SocketIO {
     private Emitter.Listener spaetiDeleteSuccess = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            // JSONObject id = null;
-            JSONObject id = (JSONObject) args[0];
-            System.out.println(id);
+//            // JSONObject id = null;
+//            JSONObject id = (JSONObject) args[0];
+//            System.out.println(id);
+//            try {
+//                String id2 =  id.getJSONObject("newSpaeti").toString();
+//                System.out.println(id2 + ("id222222222222222222222222222222222222222222222222222222222"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            deleteController.spaetiDeleted(id);
+//            //TODO check if works!!!!!!
             try {
-                String id2 =  id.getJSONObject("newSpaeti").toString();
-                System.out.println(id2 + ("id222222222222222222222222222222222222222222222222222222222"));
+                System.out.println(args[0]);
+                String id = ((JSONObject) args[0]).getString("id");
+                deleteController.spaetiDeleted(id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            deleteController.spaetiDeleted(id);
-            //TODO check if works!!!!!!
         }
     };
 

@@ -27,13 +27,20 @@ public class DeleteSpaetiController {
         socketIO.deleteSpaeti(id);
     }
 
-    public void spaetiDeleted(JSONObject data) {
-        String id = gson.fromJson(data.toString(),String.class);
+    public void spaetiDeleted(String id) {
+        System.out.println(id + "deleteController spaeitDeleted");
+        //String id = gson.fromJson(data.toString(),String.class);
         if(!repository.deleteSpaeti(id)){
             System.out.println("could not delete spaeti with id in repo " +id);
         } else {
             System.out.println("spaeti with id " + id + " has successfully been removed from repo");
             // TODO map marker löschen
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mainActivity.removeMarkerFromMap();
+                }
+            });
         }
         //Send data to repo
     }

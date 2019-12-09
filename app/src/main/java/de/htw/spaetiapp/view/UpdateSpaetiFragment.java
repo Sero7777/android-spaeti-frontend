@@ -1,9 +1,9 @@
 package de.htw.spaetiapp.view;
 
-
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -23,19 +23,16 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.List;
 
-import de.htw.spaetiapp.controller.AddSpaetiController;
+import de.htw.spaetiapp.R;
+import de.htw.spaetiapp.controller.UpdateSpaetiController;
 import de.htw.spaetiapp.models.Spaeti;
 
-import de.htw.spaetiapp.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class AddSpaetiFragment extends Fragment {
+public class UpdateSpaetiFragment extends Fragment {
 
     private TextView openT;
     private TextView closeT;
-    private Button addButton;
+    private Button updateButton;
     private EditText spaetiName;
     private EditText number;
     private EditText description;
@@ -43,10 +40,10 @@ public class AddSpaetiFragment extends Fragment {
     private EditText address;
     private EditText country;
     private EditText city;
-    private AddSpaetiController addSpaetiController;
+    private UpdateSpaetiController updateSpaetiController;
 
 
-    public AddSpaetiFragment() {
+    public UpdateSpaetiFragment() {
         // Required empty public constructor
     }
 
@@ -54,10 +51,26 @@ public class AddSpaetiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        addSpaetiController = ((MainActivity)getActivity()).getAddSpaetiController();
-
+        updateSpaetiController = ((MainActivity)getActivity()).getUpdateSpaetiController();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_spaeti, container, false);
+        return inflater.inflate(R.layout.fragment_update_spaeti, container, false);
+    }
+
+
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
     @Override
@@ -67,17 +80,17 @@ public class AddSpaetiFragment extends Fragment {
         openT.setOnClickListener(new TimeViewListener(openT));
         closeT.setOnClickListener(new TimeViewListener(closeT));
 
-        spaetiName = view.findViewById(R.id.addName);
-        addButton = view.findViewById(R.id.addButton);
-        country = view.findViewById(R.id.addCountry);
-        address = view.findViewById(R.id.addAddress);
-        zip = view.findViewById(R.id.addZip);
-        description = view.findViewById(R.id.addDescription);
-        number = view.findViewById(R.id.addNumber);
-        city = view.findViewById(R.id.addCity);
+        spaetiName = view.findViewById(R.id.updateName);
+        updateButton = view.findViewById(R.id.updateButton);
+        country = view.findViewById(R.id.updateCountry);
+        address = view.findViewById(R.id.updateAddress);
+        zip = view.findViewById(R.id.updateZip);
+        description = view.findViewById(R.id.updateDescription);
+        number = view.findViewById(R.id.updateNumber);
+        city = view.findViewById(R.id.updateCity);
 
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("---------------------------");
@@ -107,7 +120,7 @@ public class AddSpaetiFragment extends Fragment {
                     spaeti.setLatitude(latlong.latitude);
                     spaeti.setLongitude(latlong.longitude);
                     try {
-                        addSpaetiController.addSpaeti(spaeti);
+                        updateSpaetiController.updateSpaeti(spaeti);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

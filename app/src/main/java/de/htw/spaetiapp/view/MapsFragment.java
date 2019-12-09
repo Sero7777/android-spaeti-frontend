@@ -151,13 +151,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         googleMap.setInfoWindowAdapter(adapter);
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnMapClickListener(this);
-        FloatingActionButton myFab = (FloatingActionButton) mView.findViewById(R.id.deleteFloatingActionButton);
-        myFab.setOnClickListener(new View.OnClickListener() {
+        deleteButton = (FloatingActionButton) mView.findViewById(R.id.deleteFloatingActionButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity) getActivity()).removeSpaeti(((Spaeti)latestMarker.getTag()).get_id());
                 latestMarker.remove();
             }
         });
+        editButton = (FloatingActionButton) mView.findViewById(R.id.deleteFloatingActionButton);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).removeSpaeti(((Spaeti)latestMarker.getTag()).get_id());
+
+            }
+        });
+    }
+
+    public void removeMarker() {
+        latestMarker.remove();
     }
 
 

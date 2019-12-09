@@ -30,26 +30,26 @@ public class SpaetiRepository {
         //discuss how to implement this
         //maybe with indexOf and set
         //or if update was success, delete old entry and replace with new??
-
-
-        spaetiList.forEach(spaetiFromRepo -> {
-            if (spaetiFromRepo.get_id().equals(spaeti.get_id())) {
-                    spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);
+//        spaetiList.forEach(spaetiFromRepo -> {
+//            if (spaetiFromRepo.get_id().equals(spaeti.get_id())) {
+//                    spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);
+//            }
+//        });
+//        return null;
+        for (Spaeti spaetiFromRepo: spaetiList) {
+            if (spaetiFromRepo.get_id().equalsIgnoreCase(spaetiFromRepo.get_id())){
+                spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);
             }
-        });
+        }
         return null;
     }
 
     public boolean deleteSpaeti(String id) {
-        //maybe problematic since the object in the list is a different one than the one from the server
-        // even though the attributes are the same, different reference
-
-        spaetiList.forEach(spaeti -> {
-            if (spaeti.get_id().equals(id)) {
-                spaetiList.remove(spaeti);
+        for (Spaeti spaeti: spaetiList) {
+            if(spaeti.get_id().equalsIgnoreCase(id)) {
+                return spaetiList.remove(spaeti);
             }
-        });
+        }
         return false;
     }
-
 }

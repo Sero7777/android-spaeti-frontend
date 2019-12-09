@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private final Fragment settingsFragment = new SettingsFragment();
     private final Fragment listFragment = new ListFragment();
     private final Fragment mapsFragment = new MapsFragment();
+    private final Fragment updateFragment = new UpdateSpaetiFragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment activeFragment = mapsFragment;
     private boolean isLatestFragmentMap = true;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, addSpaetiFragment).hide(addSpaetiFragment).commit();
         fm.beginTransaction().add(R.id.main_container, settingsFragment).hide(settingsFragment).commit();
         fm.beginTransaction().add(R.id.main_container, listFragment).hide(listFragment).commit();
+        fm.beginTransaction().add(R.id.main_container, updateFragment).hide(updateFragment).commit();
         fm.beginTransaction().add(R.id.main_container, mapsFragment).commit();
 
 
@@ -146,4 +148,9 @@ public class MainActivity extends AppCompatActivity {
         deleteSpaetiController.deleteSpaeti(id);
     }
 
+
+    public void removeMarkerFromMap() {
+        MapsFragment fragment = (MapsFragment) mapsFragment;
+        fragment.removeMarker();
+    }
 }
