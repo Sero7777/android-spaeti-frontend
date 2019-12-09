@@ -71,19 +71,23 @@ public class AddSpaetiController {
         }
         //TODO alle init spaetis mit markern laden vllt so:
 
-            mainActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    for (Spaeti spaeti: spaetis) {
-                        System.out.println(spaeti);
-                    mainActivity.addMarkerToMap(spaeti);
-                }}
-            });
 
 
         for (Spaeti spaeti: repository.getSpaetiList()) {
             System.out.println(spaeti);
         }
+    }
+
+    public void AddInitialMarkers() {
+
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (Spaeti spaeti: repository.getSpaetiList()) {
+                    System.out.println(spaeti);
+                mainActivity.addMarkerToMap(spaeti);
+            }}
+        });
     }
 
 }
