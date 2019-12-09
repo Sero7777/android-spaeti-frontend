@@ -31,10 +31,9 @@ public class SpaetiInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         //TODO null is a probably a bad idea
         if (spaeti == null) return null;
         String info = "";
-        System.out.println(spaeti.getOpeningTime() + " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        if (!spaeti.getOpeningTime().equalsIgnoreCase("Opening Time (Optional)") || spaeti.getOpeningTime() != null && !spaeti.getOpeningTime().isEmpty())
+        if (!spaeti.getOpeningTime().equalsIgnoreCase("Opening Time (Optional)"))
             info += "Opening Time: " + spaeti.getOpeningTime() + "\n";
-        if (!spaeti.getClosingTime().equalsIgnoreCase("Closing Time (Optional)") || spaeti.getClosingTime() != null && !spaeti.getClosingTime().isEmpty())
+        if (!spaeti.getClosingTime().equalsIgnoreCase("Closing Time (Optional)"))
             info += "Closing Time: " + spaeti.getClosingTime() + "\n";
         if (spaeti.getDescription() != null && !spaeti.getDescription().isEmpty())
             info += "Description: " + spaeti.getDescription() + "\n";
