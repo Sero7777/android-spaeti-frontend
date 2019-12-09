@@ -27,8 +27,8 @@ public class DeleteSpaetiController {
         socketIO.deleteSpaeti(id);
     }
 
-    public void spaetiDeleted(String id) {
-
+    public void spaetiDeleted(JSONObject data) {
+        String id = gson.fromJson(data.toString(),String.class);
         if(!repository.deleteSpaeti(id)){
             System.out.println("could not delete spaeti with id in repo " +id);
         } else {

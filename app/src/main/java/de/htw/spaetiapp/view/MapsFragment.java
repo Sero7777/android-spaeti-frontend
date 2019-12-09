@@ -55,8 +55,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private View mView;
     private FloatingActionButton editButton;
     private FloatingActionButton deleteButton;
-    private  Animation scaleUp;
-    private  Animation scaleDown;
+    private Animation scaleUp;
+    private Animation scaleDown;
+    private Marker latestMarker;
+
 
     public MapsFragment() {
         // Required empty public constructor
@@ -149,6 +151,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         googleMap.setInfoWindowAdapter(adapter);
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnMapClickListener(this);
+        FloatingActionButton myFab = (FloatingActionButton) mView.findViewById(R.id.deleteFloatingActionButton);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).removeSpaeti(((Spaeti)latestMarker.getTag()).get_id());
+                latestMarker.remove();
+            }
+        });
     }
 
 
@@ -245,12 +254,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        latestMarker = marker;
         if (editButton.getVisibility() != View.VISIBLE && deleteButton.getVisibility() != View.VISIBLE) {
-        editButton.setVisibility(View.VISIBLE);
-        deleteButton.setVisibility(View.VISIBLE);
-        editButton.startAnimation(scaleUp);
-        deleteButton.startAnimation(scaleUp);
-        marker.showInfoWindow();}
+            editButton.setVisibility(View.VISIBLE);
+            deleteButton.setVisibility(View.VISIBLE);
+            editButton.startAnimation(scaleUp);
+            deleteButton.startAnimation(scaleUp);
+            marker.showInfoWindow();
+        }
         return true;
     }
 

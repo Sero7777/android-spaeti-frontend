@@ -1,24 +1,15 @@
 package de.htw.spaetiapp.controller;
 
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
-
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.List;
-
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
-import de.htw.spaetiapp.view.AddSpaetiFragment;
 import de.htw.spaetiapp.view.MainActivity;
-import de.htw.spaetiapp.view.MapsFragment;
 
 public class AddSpaetiController {
 
@@ -55,10 +46,10 @@ public class AddSpaetiController {
             System.out.println("Spaeti has succesfully been added to repository");
             // TODO set marker, take spaeti instance from above
            // MapsFragment fragment =(MapsFragment)mainActivity.getMapsFragment();
-            //mainActivity.addd(spaeti);
+            //mainActivity.addMarkerToMap(spaeti);
             mainActivity.runOnUiThread(new Runnable(){
                 public void run(){
-                   mainActivity.addd(spaeti);
+                   mainActivity.addMarkerToMap(spaeti);
                 }
             });
         }
@@ -83,7 +74,7 @@ public class AddSpaetiController {
                 public void run() {
                     for (Spaeti spaeti: spaetis) {
                         System.out.println(spaeti);
-                    mainActivity.addd(spaeti);
+                    mainActivity.addMarkerToMap(spaeti);
                 }}
             });
 

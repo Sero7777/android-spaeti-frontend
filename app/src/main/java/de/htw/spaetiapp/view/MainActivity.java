@@ -137,9 +137,13 @@ public class MainActivity extends AppCompatActivity {
         return mapsFragment;
     }
 
-    public void addd(Spaeti s){
+    public void addMarkerToMap(Spaeti s){
         MapsFragment fragment = (MapsFragment) mapsFragment;
         fragment.addMarker(s);
+    }
+
+    public void removeSpaeti(String id){
+        deleteSpaetiController.deleteSpaeti(id);
     }
 
 }
