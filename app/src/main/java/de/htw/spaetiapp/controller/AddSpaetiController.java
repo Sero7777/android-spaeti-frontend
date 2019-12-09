@@ -33,7 +33,9 @@ public class AddSpaetiController {
 //    }
 
     public void addSpaeti(Spaeti spaeti) throws JSONException {
+        System.out.println(spaeti + "addS");
         JSONObject spaetiJson = new JSONObject(gson.toJson(spaeti));
+        System.out.println(spaetiJson+ "addJASOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOON");
         socketIO.addSpaeti(spaetiJson);
     }
 

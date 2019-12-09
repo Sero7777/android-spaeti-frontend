@@ -148,9 +148,21 @@ public class MainActivity extends AppCompatActivity {
         deleteSpaetiController.deleteSpaeti(id);
     }
 
+    public void updateSpaeti(Spaeti spaeti){
+fm.beginTransaction().hide(activeFragment).show(updateFragment).commit();
+activeFragment = updateFragment;
+        ((UpdateSpaetiFragment)updateFragment).setFields(spaeti);
+    }
+
 
     public void removeMarkerFromMap() {
         MapsFragment fragment = (MapsFragment) mapsFragment;
         fragment.removeMarker();
+    }
+
+    public void updateMarkerOnMap(Spaeti spaeti) {
+        MapsFragment fragment = (MapsFragment) mapsFragment;
+        fragment.removeMarker();
+        fragment.addMarker(spaeti);
     }
 }

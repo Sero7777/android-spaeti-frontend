@@ -26,7 +26,7 @@ public class SpaetiRepository {
         return spaetiList.add(spaeti);
     }
 
-    public Spaeti updateSpaeti(Spaeti spaeti) {
+    public boolean updateSpaeti(Spaeti spaeti) {
         //discuss how to implement this
         //maybe with indexOf and set
         //or if update was success, delete old entry and replace with new??
@@ -39,9 +39,10 @@ public class SpaetiRepository {
         for (Spaeti spaetiFromRepo: spaetiList) {
             if (spaetiFromRepo.get_id().equalsIgnoreCase(spaetiFromRepo.get_id())){
                 spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);
+                return true;
             }
         }
-        return null;
+        return false;
     }
 
     public boolean deleteSpaeti(String id) {

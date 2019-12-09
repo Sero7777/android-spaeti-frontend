@@ -41,6 +41,7 @@ public class UpdateSpaetiFragment extends Fragment {
     private EditText country;
     private EditText city;
     private UpdateSpaetiController updateSpaetiController;
+    private Spaeti spaetiToBeUpdated;
 
 
     public UpdateSpaetiFragment() {
@@ -56,6 +57,26 @@ public class UpdateSpaetiFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_update_spaeti, container, false);
     }
 
+    public void setFields(Spaeti spaeti) {
+        spaetiToBeUpdated = spaeti;
+        spaetiName.setText(spaeti.getName());
+        if(!spaeti.getOpeningTime().equals("n/a"))
+            openT.setText(spaeti.getOpeningTime());
+        if(!spaeti.getClosingTime().equals("n/a"))
+            closeT.setText(spaeti.getOpeningTime());
+        if(null != spaeti.getDescription())
+            description.setText(spaeti.getDescription());
+
+        String[] streetAndNumber = spaeti.getStreetName().split(" ");
+
+
+        address.setText(streetAndNumber[0]);
+        number.setText(streetAndNumber[1]);
+        city.setText(spaeti.getCity());
+        zip.setText(Integer.toString(spaeti.getZip()), TextView.BufferType.EDITABLE);
+        country.setText(spaeti.getCountry());
+
+    }
 
 
     /**
@@ -105,22 +126,22 @@ public class UpdateSpaetiFragment extends Fragment {
                     closeT.setText("n/a");
                 }
 
-                Spaeti spaeti = new Spaeti();
-                spaeti.setCountry(country.getText().toString());
-                spaeti.setDescription(description.getText().toString());
-                spaeti.setOpeningTime(openT.getText().toString());
-                spaeti.setClosingTime(closeT.getText().toString());
-                spaeti.setStreetName(address.getText().toString() + " " + number.getText().toString());
-                spaeti.setName(spaetiName.getText().toString());
-                spaeti.setZip(Integer.parseInt(zip.getText().toString()));
-                spaeti.setCity(city.getText().toString());
 
-                LatLng latlong = getLocationFromAddress(getContext(), spaeti.getStreetName() + " " + spaeti.getZip() + " " + spaeti.getCity());
+                spaetiToBeUpdated.setCity(country.getText().toString());
+                spaetiToBeUpdated.setDescription(description.getText().toString());
+                spaetiToBeUpdated.setOpeningTime(openT.getText().toString());
+                spaetiToBeUpdated.setClosingTime(closeT.getText().toString());
+                spaetiToBeUpdated.setStreetName(address.getText().toString() + " " + number.getText().toString());
+                spaetiToBeUpdated.setName(spaetiName.getText().toString());
+                spaetiToBeUpdated.setZip(Integer.parseInt(zip.getText().toString()));
+                spaetiToBeUpdated.setCity(city.getText().toString());
+
+                LatLng latlong = getLocationFromAddress(getContext(), spaetiToBeUpdated.getStreetName() + " " + spaetiToBeUpdated.getZip() + " " + spaetiToBeUpdated.getCity());
                 if(null != latlong) {
-                    spaeti.setLatitude(latlong.latitude);
-                    spaeti.setLongitude(latlong.longitude);
+                    spaetiToBeUpdated.setLatitude(latlong.latitude);
+                    spaetiToBeUpdated.setLongitude(latlong.longitude);
                     try {
-                        updateSpaetiController.updateSpaeti(spaeti);
+                        updateSpaetiController.updateSpaeti(spaetiToBeUpdated);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

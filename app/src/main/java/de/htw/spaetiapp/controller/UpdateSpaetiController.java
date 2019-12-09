@@ -25,7 +25,9 @@ public class UpdateSpaetiController {
     }
 
     public void updateSpaeti(Spaeti spaeti) throws JSONException {
+        System.out.println(spaeti + "UPDATESPAEEEEEEEEEEETT");
         JSONObject spaetiJson = new JSONObject(gson.toJson(spaeti));
+        System.out.println(spaetiJson + "updateJASOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOoN");
         socketIO.updateSpaeti(spaetiJson);
     }
 
@@ -35,14 +37,21 @@ public class UpdateSpaetiController {
     }
 
     public void updatedSpaeti(JSONObject data) {
+        System.out.println(data + "check check check ");
         Spaeti spaeti = gson.fromJson(data.toString(), Spaeti.class);
-        if (repository.updateSpaeti(spaeti) == null){
-            System.out.println("spaeti with id " + spaeti.get_id() + "couldnt be updated in the repository");
+        System.out.println(spaeti + "chicki chicki chicki chicki");
+        if (!repository.updateSpaeti(spaeti)) {
+            System.out.println("spaeti with id " + spaeti.get_id() + " couldnt be updated in the repository");
             // TODO NOT SUCCESSFUL toast oder so
 
-        }else {
+        } else {
             System.out.println("Spaeti with id " + spaeti.get_id() + " updated successfully in repo");
             // TODO Map marker setting
+            mainActivity.runOnUiThread(new Runnable() {
+                public void run() {
+                    mainActivity.updateMarkerOnMap(spaeti);
+                }
+            });
         }
     }
 
