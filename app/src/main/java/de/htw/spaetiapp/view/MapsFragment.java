@@ -135,7 +135,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         checkIfLocationIsEnabled();
 
+        Log.i("MapsFragment", "MapReady Setting Marker ...");
         ((MainActivity)getContext()).getAddSpaetiController().AddInitialMarkers();
+        Log.i("MapsFragment", "MapReady Set marker Already ...");
 
 //        Spaeti s = new Spaeti();
 //        s.setName("DickerDicker");
@@ -266,7 +268,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     public void addMarker(Spaeti obj) {
-        System.out.println(obj);
+        Log.i("MapsFragment",obj.toString());
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLatitude(), obj.getLongitude()))).setTag(obj);
     }
 

@@ -88,11 +88,11 @@ public class MainActivity extends AppCompatActivity {
         assignMiddleBarButtonIcon();
     }
 
-    public void AddSpaetiToRepo(Spaeti obj){
+    public void AddSpaetiToRepo(Spaeti obj) {
         repo.addSpaeti(obj);
-      //  MapsFragment fragment = fm.findFragmentById(R.id.mapFragment);
-       // fragment.yourPublicMethod();
-        ((MapsFragment)mapsFragment).addMarker(obj);
+        //  MapsFragment fragment = fm.findFragmentById(R.id.mapFragment);
+        // fragment.yourPublicMethod();
+        ((MapsFragment) mapsFragment).addMarker(obj);
     }
 
     private void assignMiddleBarButtonIcon() {
@@ -112,18 +112,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onListNavButtonClicked(MenuItem item) {
-        if (activeFragment == listFragment){
+        if (activeFragment == listFragment) {
             fm.beginTransaction().hide(activeFragment).show(mapsFragment).commit();
             activeFragment = mapsFragment;
             isLatestFragmentMap = true;
             item.setIcon(R.drawable.ic_list_gray);
-        } else if (activeFragment == mapsFragment){
+        } else if (activeFragment == mapsFragment) {
             fm.beginTransaction().hide(activeFragment).show(listFragment).commit();
             activeFragment = listFragment;
             isLatestFragmentMap = false;
             item.setIcon(R.drawable.ic_map_black_24dp);
         } else {
-            if (isLatestFragmentMap){
+            if (isLatestFragmentMap) {
                 fm.beginTransaction().hide(activeFragment).show(mapsFragment).commit();
                 activeFragment = mapsFragment;
                 item.setIcon(R.drawable.ic_list_gray);
@@ -135,23 +135,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Fragment getMapsFragment(){
+    public Fragment getMapsFragment() {
         return mapsFragment;
     }
 
-    public void addMarkerToMap(Spaeti s){
+    public void addMarkerToMap(Spaeti s) {
         MapsFragment fragment = (MapsFragment) mapsFragment;
         fragment.addMarker(s);
     }
 
-    public void removeSpaeti(String id){
+    public void removeSpaeti(String id) {
         deleteSpaetiController.deleteSpaeti(id);
     }
 
-    public void updateSpaeti(Spaeti spaeti){
-fm.beginTransaction().hide(activeFragment).show(updateFragment).commit();
-activeFragment = updateFragment;
-        ((UpdateSpaetiFragment)updateFragment).setFields(spaeti);
+    public void updateSpaeti(Spaeti spaeti) {
+        fm.beginTransaction().hide(activeFragment).show(updateFragment).commit();
+        activeFragment = updateFragment;
+        ((UpdateSpaetiFragment) updateFragment).setFields(spaeti);
     }
 
 
@@ -164,5 +164,16 @@ activeFragment = updateFragment;
         MapsFragment fragment = (MapsFragment) mapsFragment;
         fragment.removeMarker();
         fragment.addMarker(spaeti);
+    }
+
+
+    public void showMainView() {
+        if (isLatestFragmentMap) {
+            fm.beginTransaction().hide(activeFragment).show(mapsFragment).commit();
+            activeFragment = mapsFragment;
+        } else {
+            fm.beginTransaction().hide(activeFragment).show(listFragment).commit();
+            activeFragment = listFragment;
+        }
     }
 }

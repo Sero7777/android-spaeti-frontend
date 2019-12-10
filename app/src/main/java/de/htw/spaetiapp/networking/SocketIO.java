@@ -31,7 +31,7 @@ public class SocketIO {
     private Emitter.Listener spaetisFetched = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            System.out.println("--------------------------------");
+            Log.i("SocketIO","--------------------------------");
 
             JSONArray data = null;
 
@@ -53,7 +53,7 @@ public class SocketIO {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            System.out.println("JSON DATA" + data);
+            Log.i("SocketIO","JSON DATA" + data);
             addController.addSpaetiSuccess(data);
             //TODO check if works!!!!!!
         }
@@ -109,7 +109,7 @@ public class SocketIO {
 //            deleteController.spaetiDeleted(id);
 //            //TODO check if works!!!!!!
             try {
-                System.out.println(args[0]);
+                Log.i("SocketIO",args[0].toString());
                 String id = ((JSONObject) args[0]).getString("id");
                 deleteController.spaetiDeleted(id);
             } catch (JSONException e) {
@@ -127,7 +127,7 @@ public class SocketIO {
     private Emitter.Listener test = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            System.out.println("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+            Log.i("SocketIO","test");
         }
     };
 
@@ -147,9 +147,9 @@ public class SocketIO {
 
     public void startConnection() {
         mSocket.connect();
-        Log.i("lol", "start connection has been invoked");
+        Log.i("SocketIO", "start connection has been invoked");
         boolean test = mSocket.connected();
-        Log.i("lol", Boolean.toString(test));
+        Log.i("SocketIO", Boolean.toString(test));
 
     }
 

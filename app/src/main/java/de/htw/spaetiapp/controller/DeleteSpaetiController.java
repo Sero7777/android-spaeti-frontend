@@ -1,5 +1,7 @@
 package de.htw.spaetiapp.controller;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -28,12 +30,12 @@ public class DeleteSpaetiController {
     }
 
     public void spaetiDeleted(String id) {
-        System.out.println(id + "deleteController spaeitDeleted");
+        Log.i("DeleteSpaetiController",id + "deleteController spaeitDeleted");
         //String id = gson.fromJson(data.toString(),String.class);
         if(!repository.deleteSpaeti(id)){
-            System.out.println("could not delete spaeti with id in repo " +id);
+            Log.i("DeleteSpaetiController","could not delete spaeti with id in repo " +id);
         } else {
-            System.out.println("spaeti with id " + id + " has successfully been removed from repo");
+            Log.i("DeleteSpaetiController","spaeti with id " + id + " has successfully been removed from repo");
             // TODO map marker löschen
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
