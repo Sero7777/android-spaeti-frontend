@@ -17,7 +17,6 @@ public class SpaetiInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     public SpaetiInfoWindowAdapter(Activity context) {
         markerSpaetiView = context.getLayoutInflater().inflate(R.layout.spaeti_windows, null);
-
     }
 
     @Override
@@ -31,9 +30,9 @@ public class SpaetiInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         //TODO null is a probably a bad idea
         if (spaeti == null) return null;
         String info = "";
-        if (!spaeti.getOpeningTime().equalsIgnoreCase("Opening Time (Optional)"))
+        if (spaeti.getOpeningTime() != null && !spaeti.getOpeningTime().equalsIgnoreCase("Opening Time"))
             info += "Opening Time: " + spaeti.getOpeningTime() + "\n";
-        if (!spaeti.getClosingTime().equalsIgnoreCase("Closing Time (Optional)"))
+        if (spaeti.getClosingTime() != null && !spaeti.getClosingTime().equalsIgnoreCase("Closing Time"))
             info += "Closing Time: " + spaeti.getClosingTime() + "\n";
         if (spaeti.getDescription() != null && !spaeti.getDescription().isEmpty())
             info += "Description: " + spaeti.getDescription() + "\n";

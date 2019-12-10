@@ -48,6 +48,7 @@ public class AddSpaetiController {
             mainActivity.runOnUiThread(new Runnable(){
                 public void run(){
                    mainActivity.addMarkerToMap(spaeti);
+                   mainActivity.toastInMap();
                 }
             });
         }

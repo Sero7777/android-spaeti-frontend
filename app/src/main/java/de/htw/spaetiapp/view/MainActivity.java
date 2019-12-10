@@ -176,4 +176,9 @@ public class MainActivity extends AppCompatActivity {
             activeFragment = listFragment;
         }
     }
+
+    public void toastInMap() {
+        //TODO ENUMS
+        ((MapsFragment) mapsFragment).toastOperationAdd(true);
+    }
 }

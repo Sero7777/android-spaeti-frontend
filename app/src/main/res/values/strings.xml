@@ -16,15 +16,15 @@
     <string name="list">List</string>
     <string name="edit">Edit</string>
     <string name="cancel">Cancel</string>
-    <string name="hint_name">Name</string>
-    <string name="hint_opening_time">Opening Time (Optional)</string>
-    <string name="hint_closing_time">Closing Time (Optional)</string>
-    <string name="hint_description">Description (Optional)</string>
-    <string name="hint_street">Street</string>
-    <string name="hint_zip">Zip</string>
-    <string name="hint_country">Country</string>
-    <string name="hint_street_number">Number</string>
-    <string name="hint_city">City</string>
+    <string name="hint_name">Name*</string>
+    <string name="hint_opening_time">Opening Time</string>
+    <string name="hint_closing_time">Closing Time</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_street">Street*</string>
+    <string name="hint_zip">Zip*</string>
+    <string name="hint_country">Country*</string>
+    <string name="hint_street_number">Number*</string>
+    <string name="hint_city">City*</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

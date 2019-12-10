@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -82,9 +83,33 @@ public class AddSpaetiFragment extends Fragment {
             public void onClick(View v) {
                 System.out.println("---------------------------");
 
-                if (isEmpty(spaetiName)){
-                    spaetiName.setText("Default name");
+               if (isEmpty(spaetiName)){
+                   spaetiName.setError("Name is required");
+                   return;
+               }
+
+                if (isEmpty(address)){
+                    address.setError("Address is required");
+                    return;
                 }
+                if(isEmpty(number)){
+                    number.setError("Street number is required");
+                    return;
+                }
+
+                if(isEmpty(zip)){
+                    zip.setError("Postal code is required");
+                    return;
+                }
+                if(isEmpty(city)){
+                    city.setError("City is required");
+                    return;
+                }
+                if(isEmpty(country)){
+                    country.setError("Country is required");
+                    return;
+                }
+
                 if (isEmpty(openT)) {
                     openT.setText("n/a");
                 }

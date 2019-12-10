@@ -116,15 +116,39 @@ public class UpdateSpaetiFragment extends Fragment {
             public void onClick(View v) {
                 System.out.println("---------------------------");
 
-                if (isEmpty(spaetiName)){
-                    spaetiName.setText("Default name");
-                }
-                if (isEmpty(openT)) {
-                    openT.setText("n/a");
-                }
-                if (isEmpty(closeT)){
-                    closeT.setText("n/a");
-                }
+                    if (isEmpty(spaetiName)){
+                        spaetiName.setError("Name is required");
+                        return;
+                    }
+
+                    if (isEmpty(address)){
+                        address.setError("Address is required");
+                        return;
+                    }
+                    if(isEmpty(number)){
+                        number.setError("Street number is required");
+                        return;
+                    }
+
+                    if(isEmpty(zip)){
+                        zip.setError("Postal code is required");
+                        return;
+                    }
+                    if(isEmpty(city)){
+                        city.setError("City is required");
+                        return;
+                    }
+                    if(isEmpty(country)){
+                        country.setError("Country is required");
+                        return;
+                    }
+
+                    if (isEmpty(openT)) {
+                        openT.setText("n/a");
+                    }
+                    if (isEmpty(closeT)){
+                        closeT.setText("n/a");
+                    }
 
 
                 spaetiToBeUpdated.setCity(country.getText().toString());

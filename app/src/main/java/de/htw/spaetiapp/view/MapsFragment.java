@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -136,7 +137,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         checkIfLocationIsEnabled();
 
         Log.i("MapsFragment", "MapReady Setting Marker ...");
-        ((MainActivity)getContext()).getAddSpaetiController().AddInitialMarkers();
+        ((MainActivity) getContext()).getAddSpaetiController().AddInitialMarkers();
         Log.i("MapsFragment", "MapReady Set marker Already ...");
 
 //        Spaeti s = new Spaeti();
@@ -159,14 +160,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((MainActivity) getActivity()).removeSpaeti(((Spaeti)latestMarker.getTag()).get_id());
+                ((MainActivity) getActivity()).removeSpaeti(((Spaeti) latestMarker.getTag()).get_id());
             }
         });
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).updateSpaeti(((Spaeti)latestMarker.getTag()));
+                ((MainActivity) getActivity()).updateSpaeti(((Spaeti) latestMarker.getTag()));
 
             }
         });
@@ -268,7 +269,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     public void addMarker(Spaeti obj) {
-        Log.i("MapsFragment",obj.toString());
+        Log.i("MapsFragment", obj.toString());
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLatitude(), obj.getLongitude()))).setTag(obj);
     }
 
@@ -280,8 +281,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             deleteButton.setVisibility(View.VISIBLE);
             editButton.startAnimation(scaleUp);
             deleteButton.startAnimation(scaleUp);
-            marker.showInfoWindow();
         }
+        marker.showInfoWindow();
+
         return true;
     }
 
@@ -294,5 +296,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             editButton.setVisibility(View.INVISIBLE);
             deleteButton.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public void toastOperationAdd(boolean isSuccessful) {
+        if (isSuccessful)
+            Toast.makeText(getContext(), "Add Späti was Successful", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(getContext(), "Add Späti was Unsuccessful", Toast.LENGTH_LONG).show();
+
+    }
+
+    public void toastOperationDelete(boolean isSuccessful) {
+        if (isSuccessful)
+            Toast.makeText(getContext(), "Delete Späti was Successful", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(getContext(), "Delete Späti was Unsuccessful", Toast.LENGTH_LONG).show();
+    }
+
+    public void toastOperationUpdate(boolean isSuccessful) {
+        if (isSuccessful)
+            Toast.makeText(getContext(), "Update Späti was Successful", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(getContext(), "Update Späti was Unsuccessful", Toast.LENGTH_LONG).show();
     }
 }
