@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
+import de.htw.spaetiapp.util.ToastResponse;
 import de.htw.spaetiapp.view.MainActivity;
 
 public class UpdateSpaetiController {
@@ -46,6 +47,13 @@ public class UpdateSpaetiController {
         if (!repository.updateSpaeti(spaeti)) {
             Log.i("UpdateSpaetiController","spaeti with id " + spaeti.get_id() + " couldnt be updated in the repository");
             // TODO NOT SUCCESSFUL toast oder so
+            mainActivity.runOnUiThread(new Runnable() {
+                public void run() {
+                    mainActivity.toastInMap(ToastResponse.SPAETI_UPDATE_REPO_UNSUCCESSFUL);
+
+                }
+            });
+
 
         } else {
             Log.i("UpdateSpaetiController","Spaeti with id " + spaeti.get_id() + " updated successfully in repo");
@@ -53,6 +61,8 @@ public class UpdateSpaetiController {
             mainActivity.runOnUiThread(new Runnable() {
                 public void run() {
                     mainActivity.updateMarkerOnMap(spaeti);
+                    mainActivity.toastInMap(ToastResponse.SPAETI_UPDATE_SUCCESSFUL);
+
                 }
             });
         }
@@ -62,5 +72,11 @@ public class UpdateSpaetiController {
         // send Info to GUI
         Log.i("UpdateSpaetiController","Spaeti could not be updated");
         // TODO toast spaeti could not be saved remotely or sth wrong with backend in general
+        mainActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                mainActivity.toastInMap(ToastResponse.SPAETI_UPDATE_SERVER_UNSUCCESSFUL);
+
+            }
+        });
     }
 }

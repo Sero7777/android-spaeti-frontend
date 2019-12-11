@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -26,6 +27,7 @@ import java.util.List;
 import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.controller.UpdateSpaetiController;
 import de.htw.spaetiapp.models.Spaeti;
+import de.htw.spaetiapp.util.AddressInspector;
 
 
 public class UpdateSpaetiFragment extends Fragment {
@@ -160,7 +162,8 @@ public class UpdateSpaetiFragment extends Fragment {
                 spaetiToBeUpdated.setZip(Integer.parseInt(zip.getText().toString()));
                 spaetiToBeUpdated.setCity(city.getText().toString());
 
-                LatLng latlong = getLocationFromAddress(getContext(), spaetiToBeUpdated.getStreetName() + " " + spaetiToBeUpdated.getZip() + " " + spaetiToBeUpdated.getCity());
+                LatLng latlong = AddressInspector.getLocationFromAddress(getContext(), spaetiToBeUpdated.getStreetName() + " " + spaetiToBeUpdated.getZip() + " " + spaetiToBeUpdated.getCity());
+
                 if(null != latlong) {
                     spaetiToBeUpdated.setLatitude(latlong.latitude);
                     spaetiToBeUpdated.setLongitude(latlong.longitude);
@@ -172,6 +175,8 @@ public class UpdateSpaetiFragment extends Fragment {
                 }
                 else{
                     //TODO TOAST error invalid adress
+                    Toast.makeText(getContext(), "No such address was found!", Toast.LENGTH_LONG).show();
+
                 }
 
 
@@ -191,29 +196,6 @@ public class UpdateSpaetiFragment extends Fragment {
 
     }
 
-    public LatLng getLocationFromAddress(Context context, String strAddress) {
 
-        Geocoder coder = new Geocoder(getContext());
-        List<Address> address;
-        LatLng p1 = null;
-
-        try {
-            // May throw an IOException
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null || address.isEmpty()) {
-                return null;
-            }
-
-
-            Address location = address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-        }
-
-        return p1;
-    }
 
 }

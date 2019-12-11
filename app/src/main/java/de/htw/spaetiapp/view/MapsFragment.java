@@ -44,6 +44,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.models.Spaeti;
+import de.htw.spaetiapp.util.ToastResponse;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static de.htw.spaetiapp.util.Constants.MY_REQUEST_INT;
@@ -175,10 +176,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     public void removeMarker() {
         latestMarker.remove();
-        editButton.startAnimation(scaleDown);
-        deleteButton.startAnimation(scaleDown);
-        editButton.setVisibility(View.INVISIBLE);
-        deleteButton.setVisibility(View.INVISIBLE);
+      makeFloatingButtonsDisappear();
     }
 
 
@@ -277,46 +275,71 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public boolean onMarkerClick(Marker marker) {
         latestMarker = marker;
         if (editButton.getVisibility() != View.VISIBLE && deleteButton.getVisibility() != View.VISIBLE) {
-            editButton.setVisibility(View.VISIBLE);
-            deleteButton.setVisibility(View.VISIBLE);
-            editButton.startAnimation(scaleUp);
-            deleteButton.startAnimation(scaleUp);
+            makeFloatingButtonsAppear();
         }
         marker.showInfoWindow();
 
         return true;
     }
 
+    private void makeFloatingButtonsAppear() {
+        editButton.setVisibility(View.VISIBLE);
+        deleteButton.setVisibility(View.VISIBLE);
+        editButton.startAnimation(scaleUp);
+        deleteButton.startAnimation(scaleUp);
+    }
+
 
     @Override
     public void onMapClick(LatLng latLng) {
         if (editButton.getVisibility() != View.INVISIBLE && deleteButton.getVisibility() != View.INVISIBLE) {
+            makeFloatingButtonsDisappear();
+        }
+    }
+
+    private void makeFloatingButtonsDisappear() {
             editButton.startAnimation(scaleDown);
             deleteButton.startAnimation(scaleDown);
             editButton.setVisibility(View.INVISIBLE);
             deleteButton.setVisibility(View.INVISIBLE);
+
+    }
+
+    public void toastOperationAdd(ToastResponse response) {
+        switch (response) {
+            case SPAETI_ADD_SUCCESSFUL:
+                Toast.makeText(getContext(), "Späti was added successfully", Toast.LENGTH_LONG).show();
+                break;
+            case SPAETI_ADD_SERVER_UNSUCCESSFUL:
+                Toast.makeText(getContext(), "Server error: Späti could not be added", Toast.LENGTH_LONG).show();
+                break;
+            case SPAETI_DELETE_SUCCESSFUL:
+                Toast.makeText(getContext(), "Späti was removed successfully", Toast.LENGTH_LONG).show();
+                break;
+            case SPAETI_DELETE_REPO_UNSUCCESSFUL:
+                Toast.makeText(getContext(), "Repository error: Späti could not be deleted", Toast.LENGTH_LONG).show();
+                break;
+            case SPAETI_UPDATE_SUCCESSFUL:
+                Toast.makeText(getContext(), "Späti was updated successfully", Toast.LENGTH_LONG).show();
+                break;
+            case SPAETI_UPDATE_SERVER_UNSUCCESSFUL:
+                Toast.makeText(getContext(), "Server error: Späti could not be updated", Toast.LENGTH_LONG).show();
+                break;
+            case SPAETI_ADD_REPO_UNSUCCESSFUL:
+                Toast.makeText(getContext(), "Repository error: Späti could not be added", Toast.LENGTH_LONG).show();
+                break;
+            case SPAETI_UPDATE_REPO_UNSUCCESSFUL:
+                Toast.makeText(getContext(), "Repository error: Späti could not be updated", Toast.LENGTH_LONG).show();
+                break;
+            case SPAETI_DELETE_SERVER_UNSUCCESSFUL:
+                Toast.makeText(getContext(), "Server error: Späti could not be deleted", Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Toast.makeText(getContext(), "An unexpected error has occurred", Toast.LENGTH_LONG).show();
+                break;
+
+
         }
-    }
 
-    public void toastOperationAdd(boolean isSuccessful) {
-        if (isSuccessful)
-            Toast.makeText(getContext(), "Add Späti was Successful", Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(getContext(), "Add Späti was Unsuccessful", Toast.LENGTH_LONG).show();
-
-    }
-
-    public void toastOperationDelete(boolean isSuccessful) {
-        if (isSuccessful)
-            Toast.makeText(getContext(), "Delete Späti was Successful", Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(getContext(), "Delete Späti was Unsuccessful", Toast.LENGTH_LONG).show();
-    }
-
-    public void toastOperationUpdate(boolean isSuccessful) {
-        if (isSuccessful)
-            Toast.makeText(getContext(), "Update Späti was Successful", Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(getContext(), "Update Späti was Unsuccessful", Toast.LENGTH_LONG).show();
     }
 }

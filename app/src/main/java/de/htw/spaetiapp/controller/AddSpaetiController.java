@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
+import de.htw.spaetiapp.util.ToastResponse;
 import de.htw.spaetiapp.view.MainActivity;
 
 public class AddSpaetiController {
@@ -39,6 +40,10 @@ public class AddSpaetiController {
         Spaeti spaeti = gson.fromJson(data.toString(), Spaeti.class);
         if(!repository.addSpaeti(spaeti)){
             Log.i("AddSpaetiController","Spaeti could not be added to repository");
+            mainActivity.runOnUiThread(new Runnable(){
+                public void run(){
+                    mainActivity.toastInMap(ToastResponse.SPAETI_ADD_REPO_UNSUCCESSFUL);
+                }});
         } else {
             Log.i("AddSpaetiController",spaeti+"add Spaeti Succes");
             Log.i("AddSpaetiController","Spaeti has succesfully been added to repository");
@@ -48,7 +53,7 @@ public class AddSpaetiController {
             mainActivity.runOnUiThread(new Runnable(){
                 public void run(){
                    mainActivity.addMarkerToMap(spaeti);
-                   mainActivity.toastInMap();
+                   mainActivity.toastInMap(ToastResponse.SPAETI_ADD_SUCCESSFUL);
                 }
             });
         }
@@ -58,6 +63,10 @@ public class AddSpaetiController {
     public void addSpaetiNotsuccess() {
         System.out.println("Spaeti could not be added to repository");
         // TODO toast message oder so vllt mit mainActivity.runOnUIThread
+        mainActivity.runOnUiThread(new Runnable(){
+            public void run(){
+                mainActivity.toastInMap(ToastResponse.SPAETI_ADD_SERVER_UNSUCCESSFUL);
+            }});
     }
 
     public void addInitialSpaetis(JSONArray data) {

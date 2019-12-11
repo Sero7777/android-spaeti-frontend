@@ -28,6 +28,7 @@ import de.htw.spaetiapp.controller.AddSpaetiController;
 import de.htw.spaetiapp.models.Spaeti;
 
 import de.htw.spaetiapp.R;
+import de.htw.spaetiapp.util.AddressInspector;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -127,7 +128,8 @@ public class AddSpaetiFragment extends Fragment {
                 spaeti.setZip(Integer.parseInt(zip.getText().toString()));
                 spaeti.setCity(city.getText().toString());
 
-                LatLng latlong = getLocationFromAddress(getContext(), spaeti.getStreetName() + " " + spaeti.getZip() + " " + spaeti.getCity());
+                LatLng latlong = AddressInspector.getLocationFromAddress(getContext(), spaeti.getStreetName() + " " + spaeti.getZip() + " " + spaeti.getCity());
+
                 if(null != latlong) {
                     spaeti.setLatitude(latlong.latitude);
                     spaeti.setLongitude(latlong.longitude);
@@ -139,6 +141,8 @@ public class AddSpaetiFragment extends Fragment {
                 }
                 else{
                     //TODO TOAST error invalid adress
+                    Toast.makeText(getContext(), "No such address was found!", Toast.LENGTH_LONG).show();
+
                 }
 
 
@@ -156,31 +160,6 @@ public class AddSpaetiFragment extends Fragment {
 
         return textView.getText().toString().equalsIgnoreCase("Opening Time") || textView.getText().toString().equalsIgnoreCase("Closing Time");
 
-    }
-
-    public LatLng getLocationFromAddress(Context context, String strAddress) {
-
-        Geocoder coder = new Geocoder(getContext());
-        List<Address> address;
-        LatLng p1 = null;
-
-        try {
-            // May throw an IOException
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null || address.isEmpty()) {
-                return null;
-            }
-
-
-            Address location = address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-        }
-
-        return p1;
     }
 
 }

@@ -25,6 +25,7 @@ import de.htw.spaetiapp.controller.UpdateSpaetiController;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.controller.ConnectionController;
+import de.htw.spaetiapp.util.ToastResponse;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -177,8 +178,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void toastInMap() {
-        //TODO ENUMS
-        ((MapsFragment) mapsFragment).toastOperationAdd(true);
+    public void toastInMap(ToastResponse response) {
+        ((MapsFragment) mapsFragment).toastOperationAdd(response);
     }
 }
