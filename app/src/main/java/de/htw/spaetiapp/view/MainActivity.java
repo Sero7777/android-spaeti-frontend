@@ -142,7 +142,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void addMarkerToMap(Spaeti s) {
         MapsFragment fragment = (MapsFragment) mapsFragment;
+        clearAddFragmentFields();
         fragment.addMarker(s);
+    }
+
+    private void clearAddFragmentFields() {
+        ((AddSpaetiFragment) addSpaetiFragment).clearFields();
+    }
+
+    private void clearUpdateFragmentFields(){
+        ((UpdateSpaetiFragment)updateFragment).clearFields();
     }
 
     public void removeSpaeti(String id) {
@@ -163,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateMarkerOnMap(Spaeti spaeti) {
         MapsFragment fragment = (MapsFragment) mapsFragment;
+        clearUpdateFragmentFields();
         fragment.removeMarker();
         fragment.addMarker(spaeti);
     }

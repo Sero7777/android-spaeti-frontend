@@ -1,6 +1,7 @@
 package de.htw.spaetiapp.view;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -162,4 +163,16 @@ public class AddSpaetiFragment extends Fragment {
 
     }
 
+    @SuppressLint("ResourceType")
+    public void clearFields() {
+        spaetiName.getText().clear();
+        openT.setText(R.id.openingTime);
+        closeT.setText(R.id.closingTime);
+        description.getText().clear();
+        address.getText().clear();
+        number.getText().clear();
+        zip.getText().clear();
+        city.getText().clear();
+        country.getText().clear();
+    }
 }
