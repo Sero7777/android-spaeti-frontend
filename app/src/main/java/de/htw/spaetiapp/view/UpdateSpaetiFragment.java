@@ -81,11 +81,10 @@ public class UpdateSpaetiFragment extends Fragment {
 
     }
 
-    @SuppressLint("ResourceType")
     public void clearFields() {
         spaetiName.getText().clear();
-        openT.setText(R.id.openingTime);
-        closeT.setText(R.id.closingTime);
+        openT.setText(R.string.hint_opening_time);
+        closeT.setText(R.string.hint_closing_time);
         description.getText().clear();
         address.getText().clear();
         number.getText().clear();
