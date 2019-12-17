@@ -5,19 +5,27 @@
     <string name="switch_to_register_activity">Create an Account?</string>
     <string name="action_register">Register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="dialog_add_spaeti">Add new Späti?</string>
     <string name="add">Add</string>
+    <string name="update">Update</string>
+    <string name="settings">Settings</string>
+    <string name="list">List</string>
+    <string name="edit">Edit</string>
     <string name="cancel">Cancel</string>
-    <string name="hint_name">Name</string>
+    <string name="hint_name">Name*</string>
     <string name="hint_opening_time">Opening Time</string>
     <string name="hint_closing_time">Closing Time</string>
-    <string name="hint_description">Description (Optional)</string>
-    <string name="hint_street">Street (Optional)</string>
-    <string name="hint_zip">Zip (Optional)</string>
-    <string name="hint_country">Country (Optional)</string>
-    <string name="hint_street_number">Number</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_street">Street*</string>
+    <string name="hint_zip">Zip*</string>
+    <string name="hint_country">Country*</string>
+    <string name="hint_street_number">Number*</string>
+    <string name="hint_city">City*</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

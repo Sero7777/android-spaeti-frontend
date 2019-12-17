@@ -1,4 +1,4 @@
-package de.htw.spaetiapp.view;
+package de.htw.spaetiapp.view.old;
 
 import androidx.appcompat.app.AppCompatActivity;
 

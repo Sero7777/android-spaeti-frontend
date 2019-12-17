@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/settings"
+        android:id="@+id/bottomNavigationSettingsMenuId"
+        android:icon="@drawable/ic_settings_gray"
+        android:onClick="onSettingsNavButtonClicked"/>
+    <item android:title="@string/list"
+        android:id="@+id/bottomNavigationListMenuId"
+        android:icon="@drawable/ic_list_gray"
+        android:onClick="onListNavButtonClicked"/>
+    <item android:title="@string/add"
+        android:id="@+id/bottomNavigationAddMenuId"
+        android:icon="@drawable/ic_add_circle_gray"
+        android:onClick="onAddSpaetiNavButtonClicked"/>
+</menu>
