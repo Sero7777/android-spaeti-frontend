@@ -165,15 +165,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void removeMarkerFromMap() {
+    public void removeMarkerFromMap(String id) {
         MapsFragment fragment = (MapsFragment) mapsFragment;
-        fragment.removeMarker();
+        fragment.removeMarker(id);
     }
 
     public void updateMarkerOnMap(Spaeti spaeti) {
         MapsFragment fragment = (MapsFragment) mapsFragment;
         clearUpdateFragmentFields();
-        fragment.removeMarker();
+        fragment.removeMarker(spaeti.get_id());
         fragment.addMarker(spaeti);
     }
 

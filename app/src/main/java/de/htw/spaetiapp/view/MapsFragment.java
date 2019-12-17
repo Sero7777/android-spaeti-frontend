@@ -42,6 +42,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.HashMap;
+
 import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.util.ToastResponse;
@@ -59,7 +61,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private FloatingActionButton deleteButton;
     private Animation scaleUp;
     private Animation scaleDown;
-    private Marker latestMarker;
+    private Marker selectedMarker;
+    private HashMap<String, Marker> markerMap;
 
 
     public MapsFragment() {
@@ -77,6 +80,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             mMapView.onResume();
             mMapView.getMapAsync(this);
         }
+
+        markerMap = new HashMap<>();
 
         // Get the button view
         View locationButton = ((View) mView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
@@ -161,22 +166,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((MainActivity) getActivity()).removeSpaeti(((Spaeti) latestMarker.getTag()).get_id());
+               // ((MainActivity) getActivity()).removeSpaeti(((Spaeti) selectedMarker.getTag()).get_id());
+                removeMarker(((Spaeti) selectedMarker.getTag()).get_id());
+
             }
         });
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).updateSpaeti(((Spaeti) latestMarker.getTag()));
+                //((MainActivity) getActivity()).updateSpaeti(((Spaeti) selectedMarker.getTag()));
+                removeMarker(((Spaeti) selectedMarker.getTag());
 
             }
         });
     }
 
-    public void removeMarker() {
-        latestMarker.remove();
-      makeFloatingButtonsDisappear();
+    public void removeMarker(String id) {
+        Marker marker = markerMap.get(id);
+        marker.remove();
+        markerMap.remove(id);
+        makeFloatingButtonsDisappear();
     }
 
 
@@ -268,12 +278,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     public void addMarker(Spaeti obj) {
         Log.i("MapsFragment", obj.toString());
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLatitude(), obj.getLongitude()))).setTag(obj);
+
+        Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLatitude(), obj.getLongitude())));
+        marker.setTag(obj);
+        markerMap.put(obj.get_id(), marker);
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        latestMarker = marker;
+        selectedMarker = marker;
         if (editButton.getVisibility() != View.VISIBLE && deleteButton.getVisibility() != View.VISIBLE) {
             makeFloatingButtonsAppear();
         }
@@ -298,10 +311,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     private void makeFloatingButtonsDisappear() {
-            editButton.startAnimation(scaleDown);
-            deleteButton.startAnimation(scaleDown);
-            editButton.setVisibility(View.INVISIBLE);
-            deleteButton.setVisibility(View.INVISIBLE);
+        editButton.startAnimation(scaleDown);
+        deleteButton.startAnimation(scaleDown);
+        editButton.setVisibility(View.INVISIBLE);
+        deleteButton.setVisibility(View.INVISIBLE);
 
     }
 

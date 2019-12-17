@@ -45,7 +45,7 @@ public class DeleteSpaetiController {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mainActivity.removeMarkerFromMap();
+                    mainActivity.removeMarkerFromMap(id);
                     mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_SUCCESSFUL);
 
                 }
