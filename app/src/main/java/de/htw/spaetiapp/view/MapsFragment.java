@@ -166,18 +166,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-               // ((MainActivity) getActivity()).removeSpaeti(((Spaeti) selectedMarker.getTag()).get_id());
-                removeMarker(((Spaeti) selectedMarker.getTag()).get_id());
-
+               ((MainActivity) getActivity()).removeSpaeti(((Spaeti) selectedMarker.getTag()).get_id());
             }
         });
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //((MainActivity) getActivity()).updateSpaeti(((Spaeti) selectedMarker.getTag()));
-                removeMarker(((Spaeti) selectedMarker.getTag());
-
+                ((MainActivity) getActivity()).updateSpaeti(((Spaeti) selectedMarker.getTag()));
             }
         });
     }
