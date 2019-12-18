@@ -1,5 +1,7 @@
 package de.htw.spaetiapp.adapters;
 
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.models.Spaeti;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
 
     private ArrayList<Spaeti> spaetiList;
 
-    public ListAdapter(ArrayList<Spaeti> spaetiList){
+    public ListAdapter(ArrayList<Spaeti> spaetiList) {
         this.spaetiList = spaetiList;
     }
 
@@ -23,11 +26,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = new TextView(parent.getContext());
-        return new ListViewHolder(view);    }
+        return new ListViewHolder(view);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-    holder.textView.setText(spaetiList.get(position).toString());
+        holder.textView.setText(spaetiList.get(position).toString());
+        holder.textView.setBackgroundResource(R.drawable.spaeti_container_recycler_view);
+
     }
 
     @Override
@@ -35,7 +41,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         return spaetiList.size();
     }
 
-    public static class ListViewHolder extends RecyclerView.ViewHolder{
+    public static class ListViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textView;
 

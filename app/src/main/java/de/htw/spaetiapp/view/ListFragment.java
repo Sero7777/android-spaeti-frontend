@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.adapters.ListAdapter;
+import de.htw.spaetiapp.decorator.EqualSpacingItemDecorator;
 import de.htw.spaetiapp.models.SpaetiRepository;
 
 /**
@@ -30,10 +31,11 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView rv = new RecyclerView(getContext());
+     //   RecyclerView recList = (RecyclerView) getActivity().findViewById(R.id.cardList);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(new ListAdapter(SpaetiRepository.getInstance().getSpaetiList()));
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_list, container, false);
+        rv.addItemDecoration(new EqualSpacingItemDecorator(16, EqualSpacingItemDecorator.VERTICAL));
+        rv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         return rv;
     }
 

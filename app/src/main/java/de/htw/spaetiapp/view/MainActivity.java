@@ -5,11 +5,14 @@ import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
@@ -144,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         MapsFragment fragment = (MapsFragment) mapsFragment;
         clearAddFragmentFields();
         fragment.addMarker(s);
+        hideKeyboard();
     }
 
     private void clearAddFragmentFields() {
@@ -175,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
         clearUpdateFragmentFields();
         fragment.removeMarker(spaeti.get_id());
         fragment.addMarker(spaeti);
+        hideKeyboard();
     }
 
 
@@ -191,4 +196,16 @@ public class MainActivity extends AppCompatActivity {
     public void toastInMap(ToastResponse response) {
         ((MapsFragment) mapsFragment).toastOperationAdd(response);
     }
+
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 }
