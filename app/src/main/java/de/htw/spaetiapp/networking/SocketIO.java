@@ -24,7 +24,8 @@ public class SocketIO {
 
     private UpdateSpaetiController updateController;
     private DeleteSpaetiController deleteController;
-    private final String URL = "http://18.233.9.23:52300";
+//    private final String URL = "http://52.206.97.4:52300"; //t3.medium
+    private final String URL = "http://18.233.9.23:52300"; //t3.micro
 //    private final String URL = "http://10.51.17.1:52300";
 
 
