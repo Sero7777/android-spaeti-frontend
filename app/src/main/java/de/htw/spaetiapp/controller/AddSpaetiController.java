@@ -76,7 +76,7 @@ public class AddSpaetiController {
             repository.addSpaeti(spaeti);
         }
         //TODO alle init spaetis mit markern laden vllt so:
-
+        AddInitialMarkers();
 
 
         for (Spaeti spaeti: repository.getSpaetiList()) {

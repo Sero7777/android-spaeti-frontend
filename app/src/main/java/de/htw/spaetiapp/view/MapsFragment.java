@@ -143,7 +143,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         checkIfLocationIsEnabled();
 
         Log.i("MapsFragment", "MapReady Setting Marker ...");
-        ((MainActivity) getContext()).getAddSpaetiController().AddInitialMarkers();
+        //((MainActivity) getContext()).getAddSpaetiController().AddInitialMarkers();
         Log.i("MapsFragment", "MapReady Set marker Already ...");
 
 //        Spaeti s = new Spaeti();
