@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addMarkerToMap(Spaeti s) {
+        ((ListFragment)listFragment).notifyAdapter();
         MapsFragment fragment = (MapsFragment) mapsFragment;
         clearAddFragmentFields();
         fragment.addMarker(s);
@@ -171,10 +172,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void removeMarkerFromMap(String id) {
         MapsFragment fragment = (MapsFragment) mapsFragment;
+        ((ListFragment)listFragment).notifyAdapter();
         fragment.removeMarker(id);
     }
 
     public void updateMarkerOnMap(Spaeti spaeti) {
+        ((ListFragment)listFragment).notifyAdapter();
         MapsFragment fragment = (MapsFragment) mapsFragment;
         clearUpdateFragmentFields();
         fragment.removeMarker(spaeti.get_id());

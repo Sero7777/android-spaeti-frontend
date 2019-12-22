@@ -136,8 +136,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         } else {
             requestLocationPermission();
-            //TODO: if location permissions not granted
-
         }
 
         checkIfLocationIsEnabled();
@@ -146,16 +144,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         //((MainActivity) getContext()).getAddSpaetiController().AddInitialMarkers();
         Log.i("MapsFragment", "MapReady Set marker Already ...");
 
-//        Spaeti s = new Spaeti();
-//        s.setName("DickerDicker");
-//        s.setLatitude(50.0f);
-//        s.setLongitude(50.0f);
-//        s.setCity("Keklin");
-//        s.setStreetName("JESStraße 14");
-//        s.setDescription("GeJessen GeJessen GeJessen");
-//        s.set_id("1");
-//        s.setOpeningTime("14:50");
-//        googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLatitude(), s.getLongitude()))).setTag(s);
 
         SpaetiInfoWindowAdapter adapter = new SpaetiInfoWindowAdapter(this.getActivity());
 
