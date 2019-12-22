@@ -34,6 +34,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -151,6 +152,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         googleMap.setInfoWindowAdapter(adapter);
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnMapClickListener(this);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.5200,13.4050), 10));
+
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

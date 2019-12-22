@@ -208,7 +208,10 @@ public class MainActivity extends AppCompatActivity {
         if (view == null) {
             view = new View(this);
         }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+       // imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        view.clearFocus();
+
     }
 
 }
