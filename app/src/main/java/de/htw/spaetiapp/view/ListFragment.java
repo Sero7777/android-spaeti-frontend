@@ -14,13 +14,15 @@ import android.view.ViewGroup;
 
 import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.adapters.ListAdapter;
-import de.htw.spaetiapp.decorator.EqualSpacingItemDecorator;
 import de.htw.spaetiapp.models.SpaetiRepository;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ListFragment extends Fragment {
+
+
+    ListAdapter adapter;
 
 
     public ListFragment() {
@@ -34,8 +36,13 @@ public class ListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
         RecyclerView rv = rootView.findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv.setAdapter(new ListAdapter(SpaetiRepository.getInstance().getSpaetiList()));
+        adapter = new ListAdapter(SpaetiRepository.getInstance().getSpaetiList());
+        rv.setAdapter(adapter);
         return rootView;
+    }
+
+    public void notifyAdapter(){
+        adapter.notifyDataSetChanged();
     }
 
 }
