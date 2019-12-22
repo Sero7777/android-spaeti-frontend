@@ -47,7 +47,7 @@ public class SpaetiRepository {
 
     public boolean deleteSpaeti(String id) {
         for (Spaeti spaeti: spaetiList) {
-            if(spaeti.get_id().equalsIgnoreCase(id)) {
+            if(spaeti.get_id().equals(id)) {
                 return spaetiList.remove(spaeti);
             }
         }
