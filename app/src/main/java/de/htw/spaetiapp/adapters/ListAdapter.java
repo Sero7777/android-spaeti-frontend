@@ -2,6 +2,7 @@ package de.htw.spaetiapp.adapters;
 
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,8 +26,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     @NonNull
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = new TextView(parent.getContext());
-        return new ListViewHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.item_spaeti_recyclerview, parent, false);
+        return new ListViewHolder(v);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 
         public ListViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = (TextView) itemView;
+            textView = (TextView) itemView.findViewById(R.id.spaeti_text);
         }
     }
 }

@@ -3,6 +3,7 @@ package de.htw.spaetiapp.view;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,13 +31,13 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView rv = new RecyclerView(getContext());
-     //   RecyclerView recList = (RecyclerView) getActivity().findViewById(R.id.cardList);
+        View rootView = inflater.inflate(R.layout.fragment_list, container, false);
+        // RecyclerView rv = new RecyclerView(getContext());
+        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(new ListAdapter(SpaetiRepository.getInstance().getSpaetiList()));
-        rv.addItemDecoration(new EqualSpacingItemDecorator(16, EqualSpacingItemDecorator.VERTICAL));
-        rv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        return rv;
+        //rv.addItemDecoration(new EqualSpacingItemDecorator(16, EqualSpacingItemDecorator.VERTICAL));
+        return rootView;
     }
 
 }
