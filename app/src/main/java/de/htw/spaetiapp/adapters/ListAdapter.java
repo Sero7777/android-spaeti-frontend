@@ -1,7 +1,5 @@
 package de.htw.spaetiapp.adapters;
 
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +33,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
         holder.textView.setText(spaetiList.get(position).toString());
         holder.textView.setBackgroundResource(R.drawable.spaeti_container_recycler_view);
-
+       // notifyDataSetChanged();
     }
 
     @Override

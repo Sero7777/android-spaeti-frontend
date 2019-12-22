@@ -32,11 +32,9 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
-        // RecyclerView rv = new RecyclerView(getContext());
-        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        RecyclerView rv = rootView.findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(new ListAdapter(SpaetiRepository.getInstance().getSpaetiList()));
-        //rv.addItemDecoration(new EqualSpacingItemDecorator(16, EqualSpacingItemDecorator.VERTICAL));
         return rootView;
     }
 

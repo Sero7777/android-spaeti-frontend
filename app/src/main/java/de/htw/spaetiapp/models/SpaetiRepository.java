@@ -37,7 +37,7 @@ public class SpaetiRepository {
 //        });
 //        return null;
         for (Spaeti spaetiFromRepo: spaetiList) {
-            if (spaetiFromRepo.get_id().equalsIgnoreCase(spaetiFromRepo.get_id())){
+            if (spaetiFromRepo.get_id().equals(spaeti.get_id())){
                 spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);
                 return true;
             }
