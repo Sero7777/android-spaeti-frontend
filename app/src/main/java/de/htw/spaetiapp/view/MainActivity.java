@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
         addSpaetiController = new AddSpaetiController(this);
         updateSpaetiController = new UpdateSpaetiController(this);
         deleteSpaetiController = new DeleteSpaetiController(this);
-        connectionController = new ConnectionController(addSpaetiController, updateSpaetiController, deleteSpaetiController);
-
+        connectionController = new ConnectionController().setAddController(addSpaetiController).setUpdateController(updateSpaetiController).setDeleteController(deleteSpaetiController);
+        connectionController.connectClient();
 
     }
 
