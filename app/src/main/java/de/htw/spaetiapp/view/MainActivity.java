@@ -143,20 +143,22 @@ public class MainActivity extends AppCompatActivity {
         return mapsFragment;
     }
 
-    public void addMarkerToMap(Spaeti s) {
-        ((ListFragment)listFragment).notifyAdapter();
+    public void addMarkerToMap(Spaeti s, boolean isBroadcast) {
+        ((ListFragment) listFragment).notifyAdapter();
         MapsFragment fragment = (MapsFragment) mapsFragment;
         clearAddFragmentFields();
         fragment.addMarker(s);
-        hideKeyboard();
+        if (!isBroadcast) {
+            hideKeyboard();
+        }
     }
 
     private void clearAddFragmentFields() {
         ((AddSpaetiFragment) addSpaetiFragment).clearFields();
     }
 
-    private void clearUpdateFragmentFields(){
-        ((UpdateSpaetiFragment)updateFragment).clearFields();
+    private void clearUpdateFragmentFields() {
+        ((UpdateSpaetiFragment) updateFragment).clearFields();
     }
 
     public void removeSpaeti(String id) {
@@ -172,17 +174,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void removeMarkerFromMap(String id) {
         MapsFragment fragment = (MapsFragment) mapsFragment;
-        ((ListFragment)listFragment).notifyAdapter();
+        ((ListFragment) listFragment).notifyAdapter();
         fragment.removeMarker(id);
     }
 
-    public void updateMarkerOnMap(Spaeti spaeti) {
-        ((ListFragment)listFragment).notifyAdapter();
+    public void updateMarkerOnMap(Spaeti spaeti, boolean isBroadcast) {
+        ((ListFragment) listFragment).notifyAdapter();
         MapsFragment fragment = (MapsFragment) mapsFragment;
         clearUpdateFragmentFields();
         fragment.removeMarker(spaeti.get_id());
         fragment.addMarker(spaeti);
-        hideKeyboard();
+        if (!isBroadcast) {
+            hideKeyboard();
+        }
     }
 
 
@@ -208,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         if (view == null) {
             view = new View(this);
         }
-       // imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        // imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         view.clearFocus();
 

@@ -55,7 +55,7 @@ public class SocketIO {
                 e.printStackTrace();
             }
             Log.i("SocketIO","JSON DATA" + data);
-            addController.addSpaetiSuccess(data);
+            addController.addSpaetiSuccess(data, false);
             //TODO check if works!!!!!!
         }
     };
@@ -84,7 +84,7 @@ public class SocketIO {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            updateController.updatedSpaeti(data);
+            updateController.updatedSpaeti(data, false);
             //TODO check if works!!!!!!
         }
     };
@@ -112,7 +112,7 @@ public class SocketIO {
             try {
                 Log.i("SocketIO",args[0].toString());
                 String id = ((JSONObject) args[0]).getString("id");
-                deleteController.spaetiDeleted(id);
+                deleteController.spaetiDeleted(id, false);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -129,6 +129,47 @@ public class SocketIO {
         @Override
         public void call(Object... args) {
             Log.i("SocketIO","test");
+        }
+    };
+    private Emitter.Listener spaetiAddSuccessBroadcast = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
+            JSONObject data = null;
+            try {
+                data = ((JSONObject) args[0]).getJSONObject("spaeti");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.i("SocketIO","JSON DATA" + data);
+            addController.addSpaetiSuccess(data, true);
+            //TODO check if works!!!!!!
+        }
+    };
+    private Emitter.Listener spaetiUpdateSuccessBroadcast = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
+            JSONObject data = null;
+            try {
+                data = ((JSONObject) args[0]).getJSONObject("fetchedSpaeti");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            updateController.updatedSpaeti(data, true);
+            //TODO check if works!!!!!!
+        }
+    };
+    private Emitter.Listener spaetiDeleteSuccessBroadcast = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            try {
+                Log.i("SocketIO",args[0].toString());
+                String id = ((JSONObject) args[0]).getString("id");
+                deleteController.spaetiDeleted(id,true);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -158,11 +199,14 @@ public class SocketIO {
         mSocket.on("fetch", spaetisFetched);
         mSocket.on("test", test);
         mSocket.on("addedSpaetiSuccessfully", spaetiAddSuccess);
+        mSocket.on("addedSpaetiSuccessfullyBroadcast", spaetiAddSuccessBroadcast);
         mSocket.on("couldNotAddSpaeti", spaetiAddNotSuccess);
         mSocket.on("couldNotFindSpaetiInDB", spaetiNotFound);
         mSocket.on("updatedSpaetiSuccessfully", spaetiUpdateSuccess);
+        mSocket.on("updatedSpaetiSuccessfullyBroadcast", spaetiUpdateSuccessBroadcast);
         mSocket.on("couldNotUpdateSpaeti", spaetiUpdateNotSuccess);
         mSocket.on("deletedSpaetiSuccessfully", spaetiDeleteSuccess);
+        mSocket.on("deletedSpaetiSuccessfully", spaetiDeleteSuccessBroadcast);
         mSocket.on("couldNotDeleteSpaeti", spaetiDeleteNotSuccess);
     }
 
