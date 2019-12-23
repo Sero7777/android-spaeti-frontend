@@ -27,18 +27,20 @@ public class DeleteSpaetiController {
         socketIO.deleteSpaeti(id);
     }
 
-    public void spaetiDeleted(String id) {
+    public void spaetiDeleted(String id, boolean isBroadcast) {
         Log.i("DeleteSpaetiController",id + "deleteController spaeitDeleted");
         //String id = gson.fromJson(data.toString(),String.class);
         if(!repository.deleteSpaeti(id)){
             Log.i("DeleteSpaetiController","could not delete spaeti with id in repo " +id);
-            mainActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_REPO_UNSUCCESSFUL);
+            if (!isBroadcast) {
+                mainActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_REPO_UNSUCCESSFUL);
 
-                }
-            });
+                    }
+                });
+            }
         } else {
             Log.i("DeleteSpaetiController","spaeti with id " + id + " has successfully been removed from repo");
             // TODO map marker löschen
@@ -46,8 +48,9 @@ public class DeleteSpaetiController {
                 @Override
                 public void run() {
                     mainActivity.removeMarkerFromMap(id);
-                    mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_SUCCESSFUL);
-
+                    if (!isBroadcast) {
+                        mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_SUCCESSFUL);
+                    }
                 }
             });
         }
