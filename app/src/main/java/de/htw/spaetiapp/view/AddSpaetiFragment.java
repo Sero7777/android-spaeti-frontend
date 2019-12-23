@@ -2,9 +2,6 @@ package de.htw.spaetiapp.view;
 
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -21,9 +18,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.List;
 
 import de.htw.spaetiapp.controller.AddSpaetiController;
 import de.htw.spaetiapp.models.Spaeti;

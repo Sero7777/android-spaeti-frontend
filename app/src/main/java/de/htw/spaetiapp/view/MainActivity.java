@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private AddSpaetiController addSpaetiController;
     private UpdateSpaetiController updateSpaetiController;
     private DeleteSpaetiController deleteSpaetiController;
+    private SharedPreferences settings;
 
 
     public AddSpaetiController getAddSpaetiController() {
@@ -68,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         menu = navigation.getMenu();
-        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        settings =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         fm.beginTransaction().add(R.id.main_container, addSpaetiFragment).hide(addSpaetiFragment).commit();
         fm.beginTransaction().add(R.id.main_container, settingsFragment).hide(settingsFragment).commit();
@@ -216,6 +219,16 @@ public class MainActivity extends AppCompatActivity {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         view.clearFocus();
 
+    }
+
+    public void saveName(String name){
+        SharedPreferences.Editor edit = settings.edit();
+        edit.putString("username", name);
+        edit.apply();
+    }
+
+    public String loadName(){
+        return settings.getString("username", "anonymous user");
     }
 
 }

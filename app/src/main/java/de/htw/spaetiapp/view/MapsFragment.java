@@ -100,6 +100,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         scaleDown = AnimationUtils.loadAnimation(getContext(), R.anim.scale_down);
         editButton.setVisibility(View.INVISIBLE);
         deleteButton.setVisibility(View.INVISIBLE);
+
+
+
+        Toast.makeText(getContext(),"Hello "+ ((MainActivity)getActivity()).loadName(), Toast.LENGTH_LONG).show();
+
+
         return mView;
 
 
