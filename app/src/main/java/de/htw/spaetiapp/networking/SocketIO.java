@@ -206,7 +206,7 @@ public class SocketIO {
         mSocket.on("updatedSpaetiSuccessfullyBroadcast", spaetiUpdateSuccessBroadcast);
         mSocket.on("couldNotUpdateSpaeti", spaetiUpdateNotSuccess);
         mSocket.on("deletedSpaetiSuccessfully", spaetiDeleteSuccess);
-        mSocket.on("deletedSpaetiSuccessfully", spaetiDeleteSuccessBroadcast);
+        mSocket.on("deletedSpaetiSuccessfullyBroadcast", spaetiDeleteSuccessBroadcast);
         mSocket.on("couldNotDeleteSpaeti", spaetiDeleteNotSuccess);
     }
 

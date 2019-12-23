@@ -175,17 +175,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void removeMarkerFromMap(String id) {
+    public void removeMarkerFromMap(String id, boolean isBroadcast) {
         MapsFragment fragment = (MapsFragment) mapsFragment;
         ((ListFragment) listFragment).notifyAdapter();
-        fragment.removeMarker(id);
+        fragment.removeMarker(id, isBroadcast);
     }
 
     public void updateMarkerOnMap(Spaeti spaeti, boolean isBroadcast) {
         ((ListFragment) listFragment).notifyAdapter();
         MapsFragment fragment = (MapsFragment) mapsFragment;
         clearUpdateFragmentFields();
-        fragment.removeMarker(spaeti.get_id());
+        fragment.removeMarker(spaeti.get_id(), isBroadcast);
         fragment.addMarker(spaeti);
         if (!isBroadcast) {
             hideKeyboard();

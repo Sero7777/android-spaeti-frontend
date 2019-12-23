@@ -175,11 +175,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         });
     }
 
-    public void removeMarker(String id) {
+    public void removeMarker(String id, boolean isBroadcast) {
         Marker marker = markerMap.get(id);
         marker.remove();
         markerMap.remove(id);
-        makeFloatingButtonsDisappear();
+        if (!isBroadcast) {
+            makeFloatingButtonsDisappear();
+        }
     }
 
 
