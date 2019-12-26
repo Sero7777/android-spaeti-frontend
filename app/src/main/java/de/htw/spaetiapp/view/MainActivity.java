@@ -14,10 +14,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.net.URISyntaxException;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private UpdateSpaetiController updateSpaetiController;
     private DeleteSpaetiController deleteSpaetiController;
     private SharedPreferences settings;
+    private BottomNavigationView bottomNavigationView;
 
 
     public AddSpaetiController getAddSpaetiController() {
@@ -69,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
-        menu = navigation.getMenu();
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        menu = bottomNavigationView.getMenu();
 
         settings =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -171,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
     public void updateSpaeti(Spaeti spaeti) {
         fm.beginTransaction().hide(activeFragment).show(updateFragment).commit();
         activeFragment = updateFragment;
+        bottomNavigationView.getMenu().findItem(R.id.bottomNavigationListMenuId).setIcon(R.drawable.ic_map_black_24dp);
+        //item.setIcon(R.drawable.amu_bubble_mask);
         ((UpdateSpaetiFragment) updateFragment).setFields(spaeti);
     }
 
@@ -215,8 +220,9 @@ public class MainActivity extends AppCompatActivity {
         if (view == null) {
             view = new View(this);
         }
-        // imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+         //imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        //  getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         view.clearFocus();
 
     }

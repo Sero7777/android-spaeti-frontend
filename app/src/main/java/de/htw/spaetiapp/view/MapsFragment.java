@@ -102,8 +102,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         deleteButton.setVisibility(View.INVISIBLE);
 
 
-
-        Toast.makeText(getContext(),"Hello "+ ((MainActivity)getActivity()).loadName(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Hello " + ((MainActivity) getActivity()).loadName(), Toast.LENGTH_LONG).show();
 
 
         return mView;
@@ -158,12 +157,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         googleMap.setInfoWindowAdapter(adapter);
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnMapClickListener(this);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.5200,13.4050), 10));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.5200, 13.4050), 10));
 
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-               ((MainActivity) getActivity()).removeSpaeti(((Spaeti) selectedMarker.getTag()).get_id());
+               AlertDialog dialog =  new AlertDialog.Builder(getActivity()).setMessage("Are you sure you want to delete this Späti?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                ((MainActivity) getActivity()).removeSpaeti(((Spaeti) selectedMarker.getTag()).get_id());
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        }).create();
+                dialog.show();
+                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(getActivity(),android.R.color.holo_green_light));
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getActivity(),android.R.color.holo_green_light));
             }
         });
 
