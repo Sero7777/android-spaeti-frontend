@@ -1,28 +1,19 @@
 package de.htw.spaetiapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.net.URISyntaxException;
 
 import de.htw.spaetiapp.R;
 
@@ -34,18 +25,17 @@ import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.controller.ConnectionController;
 import de.htw.spaetiapp.util.ToastResponse;
 
-
 public class MainActivity extends AppCompatActivity {
 
-    private final Fragment addSpaetiFragment = new AddSpaetiFragment();
+    private final Fragment addFragment = new AddSpaetiFragment();
     private final Fragment settingsFragment = new SettingsFragment();
     private final Fragment listFragment = new ListFragment();
     private final Fragment mapsFragment = new MapsFragment();
     private final Fragment updateFragment = new UpdateSpaetiFragment();
-    final FragmentManager fm = getSupportFragmentManager();
-    Fragment activeFragment = mapsFragment;
-    private boolean isLatestFragmentMap = true;
-    private static SpaetiRepository repo = SpaetiRepository.getInstance();
+    private final FragmentManager fm = getSupportFragmentManager();
+    private Fragment activeFragment;
+    private boolean isLatestFragmentMap;
+    private static SpaetiRepository repo;
     private Menu menu;
     private ConnectionController connectionController;
     private AddSpaetiController addSpaetiController;
@@ -54,6 +44,40 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences settings;
     private BottomNavigationView bottomNavigationView;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        activeFragment = mapsFragment;
+        isLatestFragmentMap = true;
+        repo = SpaetiRepository.getInstance();
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        menu = bottomNavigationView.getMenu();
+
+        settings =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        registerFragments();
+
+        initController();
+        connectionController.connectClient();
+    }
+
+    private void initController() {
+        addSpaetiController = new AddSpaetiController(this);
+        updateSpaetiController = new UpdateSpaetiController(this);
+        deleteSpaetiController = new DeleteSpaetiController(this);
+        connectionController = new ConnectionController().setAddController(addSpaetiController).setUpdateController(updateSpaetiController).setDeleteController(deleteSpaetiController);
+    }
+
+    private void registerFragments() {
+        fm.beginTransaction().add(R.id.main_container, addFragment).hide(addFragment).commit();
+        fm.beginTransaction().add(R.id.main_container, settingsFragment).hide(settingsFragment).commit();
+        fm.beginTransaction().add(R.id.main_container, listFragment).hide(listFragment).commit();
+        fm.beginTransaction().add(R.id.main_container, updateFragment).hide(updateFragment).commit();
+        fm.beginTransaction().add(R.id.main_container, mapsFragment).commit();
+    }
 
     public AddSpaetiController getAddSpaetiController() {
         return addSpaetiController;
@@ -63,46 +87,10 @@ public class MainActivity extends AppCompatActivity {
         return updateSpaetiController;
     }
 
-    public DeleteSpaetiController getDeleteSpaetiController() {
-        return deleteSpaetiController;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        menu = bottomNavigationView.getMenu();
-
-        settings =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        fm.beginTransaction().add(R.id.main_container, addSpaetiFragment).hide(addSpaetiFragment).commit();
-        fm.beginTransaction().add(R.id.main_container, settingsFragment).hide(settingsFragment).commit();
-        fm.beginTransaction().add(R.id.main_container, listFragment).hide(listFragment).commit();
-        fm.beginTransaction().add(R.id.main_container, updateFragment).hide(updateFragment).commit();
-        fm.beginTransaction().add(R.id.main_container, mapsFragment).commit();
-
-
-        addSpaetiController = new AddSpaetiController(this);
-        updateSpaetiController = new UpdateSpaetiController(this);
-        deleteSpaetiController = new DeleteSpaetiController(this);
-        connectionController = new ConnectionController().setAddController(addSpaetiController).setUpdateController(updateSpaetiController).setDeleteController(deleteSpaetiController);
-        connectionController.connectClient();
-
-    }
-
     public void onAddSpaetiNavButtonClicked(MenuItem item) {
-        fm.beginTransaction().hide(activeFragment).show(addSpaetiFragment).commit();
-        activeFragment = addSpaetiFragment;
+        fm.beginTransaction().hide(activeFragment).show(addFragment).commit();
+        activeFragment = addFragment;
         assignMiddleBarButtonIcon();
-    }
-
-    public void AddSpaetiToRepo(Spaeti obj) {
-        repo.addSpaeti(obj);
-        //  MapsFragment fragment = fm.findFragmentById(R.id.mapFragment);
-        // fragment.yourPublicMethod();
-        ((MapsFragment) mapsFragment).addMarker(obj);
     }
 
     private void assignMiddleBarButtonIcon() {
@@ -115,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSettingsNavButtonClicked(MenuItem item) {
-
         fm.beginTransaction().hide(activeFragment).show(settingsFragment).commit();
         activeFragment = settingsFragment;
         assignMiddleBarButtonIcon();
@@ -145,10 +132,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Fragment getMapsFragment() {
-        return mapsFragment;
-    }
-
     public void addMarkerToMap(Spaeti s, boolean isBroadcast) {
         ((ListFragment) listFragment).notifyAdapter();
         MapsFragment fragment = (MapsFragment) mapsFragment;
@@ -160,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearAddFragmentFields() {
-        ((AddSpaetiFragment) addSpaetiFragment).clearFields();
+        ((AddSpaetiFragment) addFragment).clearFields();
     }
 
     private void clearUpdateFragmentFields() {
@@ -174,8 +157,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateSpaeti(Spaeti spaeti) {
         fm.beginTransaction().hide(activeFragment).show(updateFragment).commit();
         activeFragment = updateFragment;
-        bottomNavigationView.getMenu().findItem(R.id.bottomNavigationListMenuId).setIcon(R.drawable.ic_map_black_24dp);
-        //item.setIcon(R.drawable.amu_bubble_mask);
+        menu.findItem(R.id.bottomNavigationListMenuId).setIcon(R.drawable.ic_map_black_24dp);
         ((UpdateSpaetiFragment) updateFragment).setFields(spaeti);
     }
 
@@ -196,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
             hideKeyboard();
         }
     }
-
 
     public void showMainView() {
         if (isLatestFragmentMap) {
@@ -224,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         //  getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         view.clearFocus();
-
     }
 
     public void saveName(String name){

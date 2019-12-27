@@ -1,10 +1,5 @@
 package de.htw.spaetiapp.view;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -22,16 +17,13 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.util.List;
-
 import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.controller.UpdateSpaetiController;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.util.AddressInspector;
+import de.htw.spaetiapp.util.InputValidator;
 
-
-public class UpdateSpaetiFragment extends Fragment {
+public class UpdateSpaetiFragment extends Fragment implements EditSpaetiFragment{
 
     private TextView openT;
     private TextView closeT;
@@ -45,72 +37,46 @@ public class UpdateSpaetiFragment extends Fragment {
     private EditText city;
     private UpdateSpaetiController updateSpaetiController;
     private Spaeti spaetiToBeUpdated;
+    private UpdateSpaetiFragment updateSpaetiFragment;
 
 
     public UpdateSpaetiFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        updateSpaetiController = ((MainActivity)getActivity()).getUpdateSpaetiController();
-        // Inflate the layout for this fragment
+        updateSpaetiController = ((MainActivity) getActivity()).getUpdateSpaetiController();
         return inflater.inflate(R.layout.fragment_update_spaeti, container, false);
     }
 
-    public void setFields(Spaeti spaeti) {
+    void setFields(Spaeti spaeti) {
         spaetiToBeUpdated = spaeti;
         spaetiName.setText(spaeti.getName());
-        if(!spaeti.getOpeningTime().equals("n/a"))
+        if (!spaeti.getOpeningTime().equals("n/a"))
             openT.setText(spaeti.getOpeningTime());
-        if(!spaeti.getClosingTime().equals("n/a"))
+        if (!spaeti.getClosingTime().equals("n/a"))
             closeT.setText(spaeti.getOpeningTime());
-        if(null != spaeti.getDescription())
+        if (null != spaeti.getDescription())
             description.setText(spaeti.getDescription());
 
         String[] streetAndNumber = spaeti.getStreetName().split(" ");
-
 
         address.setText(streetAndNumber[0]);
         number.setText(streetAndNumber[1]);
         city.setText(spaeti.getCity());
         zip.setText(Integer.toString(spaeti.getZip()), TextView.BufferType.EDITABLE);
         country.setText(spaeti.getCountry());
-
     }
 
-    public void clearFields() {
-        spaetiName.getText().clear();
-        openT.setText(R.string.hint_opening_time);
-        closeT.setText(R.string.hint_closing_time);
-        description.getText().clear();
-        address.getText().clear();
-        number.getText().clear();
-        zip.getText().clear();
-        city.getText().clear();
-        country.getText().clear();
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    void clearFields() {
+        InputValidator.clearFields(updateSpaetiFragment);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        updateSpaetiFragment = this;
         openT = view.findViewById(R.id.openingTime);
         closeT = view.findViewById(R.id.closingTime);
         openT.setOnClickListener(new TimeViewListener(openT));
@@ -125,46 +91,16 @@ public class UpdateSpaetiFragment extends Fragment {
         number = view.findViewById(R.id.updateNumber);
         city = view.findViewById(R.id.updateCity);
 
+        setUpdateButtonListener();
 
+    }
+
+    private void setUpdateButtonListener() {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("---------------------------");
 
-                    if (isEmpty(spaetiName)){
-                        spaetiName.setError("Name is required");
-                        return;
-                    }
-
-                    if (isEmpty(address)){
-                        address.setError("Address is required");
-                        return;
-                    }
-                    if(isEmpty(number)){
-                        number.setError("Street number is required");
-                        return;
-                    }
-
-                    if(isEmpty(zip)){
-                        zip.setError("Postal code is required");
-                        return;
-                    }
-                    if(isEmpty(city)){
-                        city.setError("City is required");
-                        return;
-                    }
-                    if(isEmpty(country)){
-                        country.setError("Country is required");
-                        return;
-                    }
-
-                    if (isEmpty(openT)) {
-                        openT.setText("n/a");
-                    }
-                    if (isEmpty(closeT)){
-                        closeT.setText("n/a");
-                    }
-
+                if (InputValidator.checkForEmptyFields(updateSpaetiFragment)) return;
 
                 spaetiToBeUpdated.setCity(country.getText().toString());
                 spaetiToBeUpdated.setDescription(description.getText().toString());
@@ -177,7 +113,7 @@ public class UpdateSpaetiFragment extends Fragment {
 
                 LatLng latlong = AddressInspector.getLocationFromAddress(getContext(), spaetiToBeUpdated.getStreetName() + " " + spaetiToBeUpdated.getZip() + " " + spaetiToBeUpdated.getCity());
 
-                if(null != latlong) {
+                if (null != latlong) {
                     spaetiToBeUpdated.setLatitude(latlong.latitude);
                     spaetiToBeUpdated.setLongitude(latlong.longitude);
                     try {
@@ -185,30 +121,57 @@ public class UpdateSpaetiFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                else{
-                    //TODO TOAST error invalid adress
+                } else {
                     Toast.makeText(getContext(), "No such address was found!", Toast.LENGTH_LONG).show();
-
                 }
-
-
             }
         });
-
     }
 
-    public static boolean isEmpty(EditText editText) {
-
-        return editText.getText().toString().trim().length() == 0;
-
-    }
-    public static boolean isEmpty(TextView textView) {
-
-        return textView.getText().toString().equalsIgnoreCase("Opening Time") || textView.getText().toString().equalsIgnoreCase("Closing Time");
-
+    @Override
+    public EditText getSpaetiName() {
+        return spaetiName;
     }
 
+    @Override
+    public EditText getAdress() {
+        return address;
+    }
+
+    @Override
+    public EditText getNumber() {
+        return number;
+    }
+
+    @Override
+    public EditText getZip() {
+        return zip;
+    }
+
+    @Override
+    public EditText getCity() {
+        return city;
+    }
+
+    @Override
+    public EditText getCountry() {
+        return country;
+    }
+
+    @Override
+    public TextView getOpenT() {
+        return openT;
+    }
+
+    @Override
+    public TextView getCloseT() {
+        return closeT;
+    }
+
+    @Override
+    public EditText getDescription() {
+        return description;
+    }
 
 
 }

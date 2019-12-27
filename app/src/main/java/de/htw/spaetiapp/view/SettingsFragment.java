@@ -21,18 +21,13 @@ import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.util.AddressInspector;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SettingsFragment extends Fragment {
 
     private EditText name;
     private Button saveButton;
 
-
     public SettingsFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +43,6 @@ public class SettingsFragment extends Fragment {
         name.setText(((MainActivity)getActivity()).loadName());
         saveButton = view.findViewById(R.id.saveButton);
 
-
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,18 +55,11 @@ public class SettingsFragment extends Fragment {
                 ((MainActivity)getActivity()).saveName(name.getText().toString());
                 ((MainActivity)getActivity()).hideKeyboard();
                 ((MainActivity)getActivity()).showMainView();
-
             }
         });
-
-
-
     }
 
-    private static boolean isEmpty(EditText editText) {
-
+    private boolean isEmpty(EditText editText) {
         return editText.getText().toString().trim().length() == 0;
-
     }
-
 }

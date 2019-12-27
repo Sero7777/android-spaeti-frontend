@@ -16,7 +16,6 @@ import de.htw.spaetiapp.controller.AddSpaetiController;
 import de.htw.spaetiapp.controller.DeleteSpaetiController;
 import de.htw.spaetiapp.controller.UpdateSpaetiController;
 
-//this is a singleton btw
 public class SocketIO {
     private static SocketIO instance = null;
     private Socket mSocket;
@@ -24,39 +23,31 @@ public class SocketIO {
 
     private UpdateSpaetiController updateController;
     private DeleteSpaetiController deleteController;
-//    private final String URL = "http://3.93.23.249:52300"; //t3.micro
-    private final String URL = "http://3.84.38.0:52300"; //max aws
-
-
+    private final String URL = "http://3.84.38.0:52300";
 
     private Emitter.Listener spaetisFetched = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             Log.i("SocketIO","--------------------------------");
-
-            JSONArray data = null;
+            Log.i("SocketIO","Added initial Spaetis");
 
             try {
-                data = ((JSONObject) args[0]).getJSONArray("spaetis");
+                JSONArray data = ((JSONObject) args[0]).getJSONArray("spaetis");
+                addController.addInitialSpaetis(data);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            addController.addInitialSpaetis(data);
         }
     };
     private Emitter.Listener spaetiAddSuccess = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
-            JSONObject data = null;
             try {
-                data = ((JSONObject) args[0]).getJSONObject("spaeti");
+                JSONObject data = ((JSONObject) args[0]).getJSONObject("spaeti");
+                addController.addSpaetiSuccess(data, false);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.i("SocketIO","JSON DATA" + data);
-            addController.addSpaetiSuccess(data, false);
-            //TODO check if works!!!!!!
         }
     };
 
@@ -77,15 +68,12 @@ public class SocketIO {
     private Emitter.Listener spaetiUpdateSuccess = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
-            JSONObject data = null;
             try {
-                data = ((JSONObject) args[0]).getJSONObject("fetchedSpaeti");
+                JSONObject data = ((JSONObject) args[0]).getJSONObject("fetchedSpaeti");
+                updateController.updatedSpaeti(data, false);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            updateController.updatedSpaeti(data, false);
-            //TODO check if works!!!!!!
         }
     };
     private Emitter.Listener spaetiUpdateNotSuccess = new Emitter.Listener() {
@@ -98,19 +86,7 @@ public class SocketIO {
     private Emitter.Listener spaetiDeleteSuccess = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-//            // JSONObject id = null;
-//            JSONObject id = (JSONObject) args[0];
-//            System.out.println(id);
-//            try {
-//                String id2 =  id.getJSONObject("newSpaeti").toString();
-//                System.out.println(id2 + ("id222222222222222222222222222222222222222222222222222222222"));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            deleteController.spaetiDeleted(id);
-//            //TODO check if works!!!!!!
             try {
-                Log.i("SocketIO",args[0].toString());
                 String id = ((JSONObject) args[0]).getString("id");
                 deleteController.spaetiDeleted(id, false);
             } catch (JSONException e) {
@@ -125,46 +101,33 @@ public class SocketIO {
             deleteController.spaetiNotDeleted();
         }
     };
-    private Emitter.Listener test = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            Log.i("SocketIO","test");
-        }
-    };
+
     private Emitter.Listener spaetiAddSuccessBroadcast = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
-            JSONObject data = null;
             try {
-                data = ((JSONObject) args[0]).getJSONObject("spaeti");
+                JSONObject data = ((JSONObject) args[0]).getJSONObject("spaeti");
+                addController.addSpaetiSuccess(data, true);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.i("SocketIO","JSON DATA" + data);
-            addController.addSpaetiSuccess(data, true);
-            //TODO check if works!!!!!!
         }
     };
     private Emitter.Listener spaetiUpdateSuccessBroadcast = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            //TODO not sure which Type is correct maybe with JSONObject so gson maybe useless
-            JSONObject data = null;
             try {
-                data = ((JSONObject) args[0]).getJSONObject("fetchedSpaeti");
+                JSONObject data = ((JSONObject) args[0]).getJSONObject("fetchedSpaeti");
+                updateController.updatedSpaeti(data, true);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            updateController.updatedSpaeti(data, true);
-            //TODO check if works!!!!!!
         }
     };
     private Emitter.Listener spaetiDeleteSuccessBroadcast = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             try {
-                Log.i("SocketIO",args[0].toString());
                 String id = ((JSONObject) args[0]).getString("id");
                 deleteController.spaetiDeleted(id,true);
             } catch (JSONException e) {
@@ -182,6 +145,18 @@ public class SocketIO {
         setListerner();
     }
 
+    public void setAddController(AddSpaetiController addController) {
+        this.addController = addController;
+    }
+
+    public void setUpdateController(UpdateSpaetiController updateController) {
+        this.updateController = updateController;
+    }
+
+    public void setDeleteController(DeleteSpaetiController deleteController) {
+        this.deleteController = deleteController;
+    }
+
     public static SocketIO getInstance() {
         if (null == instance) instance = new SocketIO();
         return instance;
@@ -189,15 +164,10 @@ public class SocketIO {
 
     public void startConnection() {
         mSocket.connect();
-        Log.i("SocketIO", "start connection has been invoked");
-        boolean test = mSocket.connected();
-        Log.i("SocketIO", Boolean.toString(test));
-
     }
 
     private void setListerner() {
         mSocket.on("fetch", spaetisFetched);
-        mSocket.on("test", test);
         mSocket.on("addedSpaetiSuccessfully", spaetiAddSuccess);
         mSocket.on("addedSpaetiSuccessfullyBroadcast", spaetiAddSuccessBroadcast);
         mSocket.on("couldNotAddSpaeti", spaetiAddNotSuccess);
@@ -210,27 +180,17 @@ public class SocketIO {
         mSocket.on("couldNotDeleteSpaeti", spaetiDeleteNotSuccess);
     }
 
-    public void addSpaeti(JSONObject spaeti) {
+    public void addSpaetiSendToServer(JSONObject spaeti) {
         mSocket.emit("addSpaeti", spaeti);
     }
 
-    public void updateSpaeti(JSONObject spaeti) {
+    public void updateSpaetiSendToServer(JSONObject spaeti) {
         mSocket.emit("updateSpaeti", spaeti);
     }
 
-    public void deleteSpaeti(String id) {
+    public void deleteSpaetiSendToServer(String id) {
         mSocket.emit("deleteSpaeti", id);
     }
 
-    public void setAddController(AddSpaetiController addController) {
-        this.addController = addController;
-    }
 
-    public void setUpdateController(UpdateSpaetiController updateController) {
-        this.updateController = updateController;
-    }
-
-    public void setDeleteController(DeleteSpaetiController deleteController) {
-        this.deleteController = deleteController;
-    }
 }

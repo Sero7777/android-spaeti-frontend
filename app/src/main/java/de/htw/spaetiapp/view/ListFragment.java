@@ -1,6 +1,5 @@
 package de.htw.spaetiapp.view;
 
-
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -16,33 +15,27 @@ import de.htw.spaetiapp.R;
 import de.htw.spaetiapp.adapters.ListAdapter;
 import de.htw.spaetiapp.models.SpaetiRepository;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ListFragment extends Fragment {
 
-
-    ListAdapter adapter;
-
+    private ListAdapter adapter;
+    private RecyclerView rv;
+    private View rootView;
 
     public ListFragment() {
-        // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_list, container, false);
-        RecyclerView rv = rootView.findViewById(R.id.recyclerView);
+        rootView = inflater.inflate(R.layout.fragment_list, container, false);
+        rv = rootView.findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ListAdapter(SpaetiRepository.getInstance().getSpaetiList());
         rv.setAdapter(adapter);
         return rootView;
     }
 
-    public void notifyAdapter(){
+    void notifyAdapter(){
         adapter.notifyDataSetChanged();
     }
-
 }

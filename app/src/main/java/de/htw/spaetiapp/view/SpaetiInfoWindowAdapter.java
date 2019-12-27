@@ -27,7 +27,7 @@ public class SpaetiInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     @Override
     public View getInfoContents(Marker marker) {
         Spaeti spaeti = (Spaeti) marker.getTag();
-        //TODO null is a probably a bad idea
+
         if (spaeti == null) return null;
         String info = "";
         if (spaeti.getOpeningTime() != null && !spaeti.getOpeningTime().equalsIgnoreCase("n/a"))

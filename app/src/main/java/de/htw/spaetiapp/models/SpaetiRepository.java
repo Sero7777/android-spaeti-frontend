@@ -27,15 +27,6 @@ public class SpaetiRepository {
     }
 
     public boolean updateSpaeti(Spaeti spaeti) {
-        //discuss how to implement this
-        //maybe with indexOf and set
-        //or if update was success, delete old entry and replace with new??
-//        spaetiList.forEach(spaetiFromRepo -> {
-//            if (spaetiFromRepo.get_id().equals(spaeti.get_id())) {
-//                    spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);
-//            }
-//        });
-//        return null;
         for (Spaeti spaetiFromRepo: spaetiList) {
             if (spaetiFromRepo.get_id().equals(spaeti.get_id())){
                 spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);

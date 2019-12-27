@@ -17,18 +17,15 @@ public class AddressInspector {
         LatLng result = null;
 
         try {
-            // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
+
             if (address == null || address.isEmpty()) {
                 return null;
             }
 
-
             Address location = address.get(0);
             result = new LatLng(location.getLatitude(), location.getLongitude() );
-
         } catch (IOException ex) {
-
             ex.printStackTrace();
         }
 
