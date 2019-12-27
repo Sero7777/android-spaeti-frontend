@@ -23,23 +23,29 @@ public class SpaetiRepository {
     }
 
     public boolean addSpaeti(Spaeti spaeti) {
-        return spaetiList.add(spaeti);
+        if (null != spaeti) return spaetiList.add(spaeti);
+
+        return false;
     }
 
     public boolean updateSpaeti(Spaeti spaeti) {
-        for (Spaeti spaetiFromRepo: spaetiList) {
-            if (spaetiFromRepo.get_id().equals(spaeti.get_id())){
-                spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);
-                return true;
+        if (null!= spaeti){
+            for (Spaeti spaetiFromRepo: spaetiList) {
+                if (spaetiFromRepo.get_id().equals(spaeti.get_id())){
+                    spaetiList.set(spaetiList.indexOf(spaetiFromRepo), spaeti);
+                    return true;
+                }
             }
         }
         return false;
     }
 
     public boolean deleteSpaeti(String id) {
-        for (Spaeti spaeti: spaetiList) {
-            if(spaeti.get_id().equals(id)) {
-                return spaetiList.remove(spaeti);
+        if (null != id){
+            for (Spaeti spaeti: spaetiList) {
+                if(spaeti.get_id().equals(id)) {
+                    return spaetiList.remove(spaeti);
+                }
             }
         }
         return false;
