@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
         return updateSpaetiController;
     }
 
+    public DeleteSpaetiController getDeleteSpaetiController(){ return  deleteSpaetiController; }
+
     public void onAddSpaetiNavButtonClicked(MenuItem item) {
         fm.beginTransaction().hide(activeFragment).show(addFragment).commit();
         activeFragment = addFragment;

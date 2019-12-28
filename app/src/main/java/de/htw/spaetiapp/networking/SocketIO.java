@@ -42,6 +42,8 @@ public class SocketIO {
     private Emitter.Listener spaetiAddSuccess = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
+
+            Log.i("SocketIO", "----------------------We did it");
             try {
                 JSONObject data = ((JSONObject) args[0]).getJSONObject("spaeti");
                 addController.addSpaetiSuccess(data, false);

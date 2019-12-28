@@ -182,6 +182,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     void removeMarker(String id, boolean isBroadcast) {
+        Log.i("RemoveMarker", markerMap.keySet().toString());
+        Log.i("MapsFragmentRemove","+++++++++++++++++"+ id);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Marker marker = markerMap.get(id);
         marker.remove();
         markerMap.remove(id);
