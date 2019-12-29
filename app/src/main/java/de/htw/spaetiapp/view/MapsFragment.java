@@ -3,7 +3,6 @@ package de.htw.spaetiapp.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
@@ -34,6 +33,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,12 +45,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.HashMap;
 
 import de.htw.spaetiapp.R;
+import de.htw.spaetiapp.models.MarkerRepository;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.util.ToastResponse;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
-import static de.htw.spaetiapp.util.Constants.MY_REQUEST_INT;
-import static de.htw.spaetiapp.util.Constants.REQUEST_CHECK_SETTINGS;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
@@ -62,13 +61,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private Animation scaleUp;
     private Animation scaleDown;
     private Marker selectedMarker;
-    private HashMap<String, Marker> markerMap;
-
+    //    private HashMap<String, Marker> markerMap;
+    private final int MY_REQUEST_INT = 177;
+    private final int REQUEST_CHECK_SETTINGS = 100;
 
     public MapsFragment() {
-        // Required empty public constructor
     }
-
 
     @Nullable
     @Override
@@ -81,7 +79,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             mMapView.getMapAsync(this);
         }
 
-        markerMap = new HashMap<>();
+        //  markerMap = new HashMap<>();
 
         // Get the button view
         View locationButton = ((View) mView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
@@ -99,18 +97,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         scaleDown = AnimationUtils.loadAnimation(getContext(), R.anim.scale_down);
         editButton.setVisibility(View.INVISIBLE);
         deleteButton.setVisibility(View.INVISIBLE);
+
+        displayGreetingToast();
+
         return mView;
-
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
     }
 
+    private void displayGreetingToast() {
+        Toast.makeText(getContext(), "Hello " + ((MainActivity) getActivity()).loadName(), Toast.LENGTH_LONG).show();
+    }
 
     /**
      * Manipulates the map once available.
@@ -125,37 +125,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
 
-
-
-        /* check location's permission.*/
-
         if (isLocationPermissionGranted()) {
             mGoogleMap.setMyLocationEnabled(true);
-            //mGoogleMap.setPadding(0,1600,0,0);
-
-
         } else {
             requestLocationPermission();
-            //TODO: if location permissions not granted
-
         }
 
         checkIfLocationIsEnabled();
-
-        Log.i("MapsFragment", "MapReady Setting Marker ...");
-        ((MainActivity) getContext()).getAddSpaetiController().AddInitialMarkers();
-        Log.i("MapsFragment", "MapReady Set marker Already ...");
-
-//        Spaeti s = new Spaeti();
-//        s.setName("DickerDicker");
-//        s.setLatitude(50.0f);
-//        s.setLongitude(50.0f);
-//        s.setCity("Keklin");
-//        s.setStreetName("JESStraße 14");
-//        s.setDescription("GeJessen GeJessen GeJessen");
-//        s.set_id("1");
-//        s.setOpeningTime("14:50");
-//        googleMap.addMarker(new MarkerOptions().position(new LatLng(s.getLatitude(), s.getLongitude()))).setTag(s);
 
         SpaetiInfoWindowAdapter adapter = new SpaetiInfoWindowAdapter(this.getActivity());
 
@@ -163,32 +139,55 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         googleMap.setInfoWindowAdapter(adapter);
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnMapClickListener(this);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(52.5200, 13.4050), 10));
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-               // ((MainActivity) getActivity()).removeSpaeti(((Spaeti) selectedMarker.getTag()).get_id());
-                removeMarker(((Spaeti) selectedMarker.getTag()).get_id());
+        setButtonListener();
+    }
 
-            }
-        });
+    private void setButtonListener() {
+        setDeleteButtonListener();
+        setEditButtonListener();
+    }
 
+    private void setEditButtonListener() {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //((MainActivity) getActivity()).updateSpaeti(((Spaeti) selectedMarker.getTag()));
-                removeMarker(((Spaeti) selectedMarker.getTag());
-
+                ((MainActivity) getActivity()).updateSpaeti(((Spaeti) selectedMarker.getTag()));
             }
         });
     }
 
-    public void removeMarker(String id) {
-        Marker marker = markerMap.get(id);
-        marker.remove();
-        markerMap.remove(id);
-        makeFloatingButtonsDisappear();
+    private void setDeleteButtonListener() {
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setDeleteDialog();
+            }
+        });
     }
 
+    private void setDeleteDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity()).setMessage("Are you sure you want to delete this Späti?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ((MainActivity) getActivity()).removeSpaeti(((Spaeti) selectedMarker.getTag()).get_id());
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                }).create();
+        dialog.show();
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_light));
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_light));
+    }
+
+    void removeMarker(Marker marker, boolean isBroadcast) {
+        marker.remove();
+        if (!isBroadcast) {
+            makeFloatingButtonsDisappear();
+        }
+    }
 
     private void requestLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -202,37 +201,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this.getContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
-
     }
 
-    public void checkIfLocationIsEnabled() {
+    private void checkIfLocationIsEnabled() {
         final LocationManager manager = (LocationManager) this.getContext().getSystemService(Context.LOCATION_SERVICE);
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            // buildAlertMessageNoGps();
             displayLocationSettingsRequest(getContext());
-
         }
     }
-
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-
 
     // https://stackoverflow.com/questions/33251373/turn-on-location-services-without-navigating-to-settings-page
     private void displayLocationSettingsRequest(Context context) {
@@ -261,8 +238,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                         Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
 
                         try {
-                            // Show the dialog by calling startResolutionForResult(), and check the result
-                            // in onActivityResult().
                             status.startResolutionForResult(getActivity(), REQUEST_CHECK_SETTINGS);
                         } catch (IntentSender.SendIntentException e) {
                             Log.i(TAG, "PendingIntent unable to execute request.");
@@ -276,12 +251,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         });
     }
 
-    public void addMarker(Spaeti obj) {
-        Log.i("MapsFragment", obj.toString());
-
+    void addMarker(Spaeti obj) {
         Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLatitude(), obj.getLongitude())));
         marker.setTag(obj);
-        markerMap.put(obj.get_id(), marker);
+        ((MainActivity) getContext()).getAddSpaetiController().addMarkerToMarkerRepo(obj.get_id(), marker);
     }
 
     @Override
@@ -302,7 +275,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         deleteButton.startAnimation(scaleUp);
     }
 
-
     @Override
     public void onMapClick(LatLng latLng) {
         if (editButton.getVisibility() != View.INVISIBLE && deleteButton.getVisibility() != View.INVISIBLE) {
@@ -315,10 +287,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         deleteButton.startAnimation(scaleDown);
         editButton.setVisibility(View.INVISIBLE);
         deleteButton.setVisibility(View.INVISIBLE);
-
     }
 
-    public void toastOperationAdd(ToastResponse response) {
+    void toastOperationAdd(ToastResponse response) {
         switch (response) {
             case SPAETI_ADD_SUCCESSFUL:
                 Toast.makeText(getContext(), "Späti was added successfully", Toast.LENGTH_LONG).show();
@@ -350,9 +321,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             default:
                 Toast.makeText(getContext(), "An unexpected error has occurred", Toast.LENGTH_LONG).show();
                 break;
-
-
         }
-
     }
 }

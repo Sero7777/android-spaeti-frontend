@@ -2,12 +2,14 @@ package de.htw.spaetiapp.controller;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.htw.spaetiapp.models.MarkerRepository;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
@@ -18,82 +20,85 @@ public class AddSpaetiController {
 
     private SocketIO socketIO;
     private Gson gson;
-    private SpaetiRepository repository;
+    private SpaetiRepository spaetiRepository;
+    private MarkerRepository markerRepository;
     private MainActivity mainActivity;
 
     public AddSpaetiController(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
         this.socketIO = SocketIO.getInstance();
-        this.repository = SpaetiRepository.getInstance();
+        this.spaetiRepository = SpaetiRepository.getInstance();
+        this.markerRepository = MarkerRepository.getInstance();
         gson = new Gson();
     }
 
     public void addSpaeti(Spaeti spaeti) throws JSONException {
-        Log.i("AddSpaetiController",spaeti + "addS");
         JSONObject spaetiJson = new JSONObject(gson.toJson(spaeti));
-        Log.i("AddSpaetiController",spaetiJson+ "addJASOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOON");
-        socketIO.addSpaeti(spaetiJson);
+        socketIO.addSpaetiSendToServer(spaetiJson);
         mainActivity.showMainView();
     }
 
-    public void addSpaetiSuccess(JSONObject data) {
+    public void addSpaetiSuccess(JSONObject data, boolean isBroadcast) {
         Spaeti spaeti = gson.fromJson(data.toString(), Spaeti.class);
-        if(!repository.addSpaeti(spaeti)){
-            Log.i("AddSpaetiController","Spaeti could not be added to repository");
-            mainActivity.runOnUiThread(new Runnable(){
-                public void run(){
-                    mainActivity.toastInMap(ToastResponse.SPAETI_ADD_REPO_UNSUCCESSFUL);
-                }});
+
+        if (!spaetiRepository.addSpaeti(spaeti)) {
+            Log.i("addSpaetiSuccess","failed");
+            if (!isBroadcast) {
+                makeToastAddSpaetiUnsuccessful(ToastResponse.SPAETI_ADD_REPO_UNSUCCESSFUL);
+            }
         } else {
-            Log.i("AddSpaetiController",spaeti+"add Spaeti Succes");
-            Log.i("AddSpaetiController","Spaeti has succesfully been added to repository");
-            // TODO set marker, take spaeti instance from above
-           // MapsFragment fragment =(MapsFragment)mainActivity.getMapsFragment();
-            //mainActivity.addMarkerToMap(spaeti);
-            mainActivity.runOnUiThread(new Runnable(){
-                public void run(){
-                   mainActivity.addMarkerToMap(spaeti);
-                   mainActivity.toastInMap(ToastResponse.SPAETI_ADD_SUCCESSFUL);
-                }
-            });
+            Log.i("addSpaetiSuccess","success");
+            makeToastAddSpaetiSuccessful(isBroadcast, spaeti);
         }
 
     }
 
+
+    private void makeToastAddSpaetiSuccessful(boolean isBroadcast, Spaeti spaeti) {
+        mainActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                mainActivity.addMarkerToMap(spaeti, isBroadcast);
+                if (!isBroadcast) {
+                    mainActivity.toastInMap(ToastResponse.SPAETI_ADD_SUCCESSFUL);
+                }
+            }
+        });
+    }
+
+    private void makeToastAddSpaetiUnsuccessful(ToastResponse spaetiAddRepoUnsuccessful) {
+        mainActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                mainActivity.toastInMap(spaetiAddRepoUnsuccessful);
+            }
+        });
+    }
+
     public void addSpaetiNotsuccess() {
-        System.out.println("Spaeti could not be added to repository");
-        // TODO toast message oder so vllt mit mainActivity.runOnUIThread
-        mainActivity.runOnUiThread(new Runnable(){
-            public void run(){
-                mainActivity.toastInMap(ToastResponse.SPAETI_ADD_SERVER_UNSUCCESSFUL);
-            }});
+        makeToastAddSpaetiUnsuccessful(ToastResponse.SPAETI_ADD_SERVER_UNSUCCESSFUL);
     }
 
     public void addInitialSpaetis(JSONArray data) {
         Spaeti[] spaetis = gson.fromJson(data.toString(), Spaeti[].class);
-        Log.i("AddSpaetiController","I reached this pointAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
         for (Spaeti spaeti : spaetis) {
-            repository.addSpaeti(spaeti);
+            spaetiRepository.addSpaeti(spaeti);
         }
-        //TODO alle init spaetis mit markern laden vllt so:
-
-
-
-        for (Spaeti spaeti: repository.getSpaetiList()) {
-            System.out.println(spaeti);
-        }
+        addInitialMarkers();
     }
 
-    public void AddInitialMarkers() {
-
+    private void addInitialMarkers() {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                for (Spaeti spaeti: repository.getSpaetiList()) {
-                    System.out.println(spaeti);
-                mainActivity.addMarkerToMap(spaeti);
-            }}
+                for (Spaeti spaeti : spaetiRepository.getSpaetiList()) {
+                    mainActivity.addMarkerToMap(spaeti, true);
+                }
+            }
         });
+    }
+
+    public void addMarkerToMarkerRepo(String id, Marker marker){
+        markerRepository.addMarkerToMap(id, marker);
     }
 
 }

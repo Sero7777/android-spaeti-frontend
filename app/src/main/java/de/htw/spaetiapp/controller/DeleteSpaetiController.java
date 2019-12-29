@@ -1,9 +1,9 @@
 package de.htw.spaetiapp.controller;
 
-import android.util.Log;
-
+import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 
+import de.htw.spaetiapp.models.MarkerRepository;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
 import de.htw.spaetiapp.util.ToastResponse;
@@ -13,56 +13,57 @@ public class DeleteSpaetiController {
 
     private SocketIO socketIO;
     private Gson gson;
-    private SpaetiRepository repository;
+    private SpaetiRepository spaetiRepository;
+    private MarkerRepository markerRepository;
     private MainActivity mainActivity;
 
     public DeleteSpaetiController(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
         this.socketIO = SocketIO.getInstance();
-        this.repository = SpaetiRepository.getInstance();
+        this.spaetiRepository = SpaetiRepository.getInstance();
+        this.markerRepository = MarkerRepository.getInstance();
         gson = new Gson();
     }
 
-    public void deleteSpaeti(String id){
-        socketIO.deleteSpaeti(id);
+    public void deleteSpaeti(String id) {
+        socketIO.deleteSpaetiSendToServer(id);
     }
 
-    public void spaetiDeleted(String id) {
-        Log.i("DeleteSpaetiController",id + "deleteController spaeitDeleted");
-        //String id = gson.fromJson(data.toString(),String.class);
-        if(!repository.deleteSpaeti(id)){
-            Log.i("DeleteSpaetiController","could not delete spaeti with id in repo " +id);
-            mainActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_REPO_UNSUCCESSFUL);
-
-                }
-            });
+    public void spaetiDeleted(String id, boolean isBroadcast) {
+        if (!spaetiRepository.deleteSpaeti(id)) {
+            if (!isBroadcast) {
+                makeToastDeleteSpaetiUnsuccessful(ToastResponse.SPAETI_DELETE_REPO_UNSUCCESSFUL);
+            }
         } else {
-            Log.i("DeleteSpaetiController","spaeti with id " + id + " has successfully been removed from repo");
-            // TODO map marker löschen
-            mainActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mainActivity.removeMarkerFromMap(id);
-                    mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_SUCCESSFUL);
-
-                }
-            });
+            Marker marker = (Marker) markerRepository.getMarkerMap().get(id);
+            markerRepository.deleteMarkerFromMap(id);
+            makeToastDeleteSpaetiSucessful(marker, isBroadcast);
         }
-        //Send data to repo
     }
 
-    public void spaetiNotDeleted() {
-        // Send Data to GUI
-        // TODO toast could not delete blabla
+    private void makeToastDeleteSpaetiSucessful(Marker marker, boolean isBroadcast) {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_SERVER_UNSUCCESSFUL);
-
+                mainActivity.removeMarkerFromMap(marker, isBroadcast);
+                if (!isBroadcast) {
+                    mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_SUCCESSFUL);
+                }
             }
         });
     }
+
+    private void makeToastDeleteSpaetiUnsuccessful(ToastResponse spaetiDeleteRepoUnsuccessful) {
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mainActivity.toastInMap(spaetiDeleteRepoUnsuccessful);
+            }
+        });
+    }
+
+    public void spaetiNotDeleted() {
+        makeToastDeleteSpaetiUnsuccessful(ToastResponse.SPAETI_DELETE_SERVER_UNSUCCESSFUL);
+    }
+
 }

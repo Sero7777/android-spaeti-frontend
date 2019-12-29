@@ -105,17 +105,19 @@ public class Spaeti {
 
     @Override
     public String toString() {
-        return getName() + "\n" +
-                getLatitude() + "\n" +
-                getLongitude() + "\n" +
-                getOpeningTime() + "\n" +
-                getClosingTime() + "\n" +
-                getStreetName() + "\n" +
-                getDescription() + "\n" +
-                getCity() + "\n" +
-                getZip() + "\n" +
-                getCountry() + "\n" +
-                get_id();
+        String result = "";
+        result += getName();
+        if(null != openingTime && !openingTime.trim().isEmpty() && !openingTime.equals("n/a"))
+            result += "\n" + openingTime;
+        if(null != closingTime && !closingTime.trim().isEmpty() && !closingTime.equals("n/a"))
+            result += "\n" + closingTime;
+        if(null != description && !description.trim().isEmpty())
+            result += "\n" + description;
+        result += "\n" + getStreetName()
+                + "\n" + getZip()
+                + "\n" + getCity()
+                + "\n" + getCountry();
+        return result;
     }
 
 }
