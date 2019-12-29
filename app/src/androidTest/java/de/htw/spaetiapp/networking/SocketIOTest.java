@@ -243,7 +243,7 @@ public class SocketIOTest {
 
     @Test
     public void c_deleteSpaetiSendToServer() {
-        int listSize = SpaetiRepository.getInstance().getSpaetiList().size();
+        int listSizeBeforeDeletion = SpaetiRepository.getInstance().getSpaetiList().size();
         int index = 0;
         int index2 = 0;
         for (Spaeti spaetiFromRepo : SpaetiRepository.getInstance().getSpaetiList()) {
@@ -265,6 +265,6 @@ public class SocketIOTest {
             e.printStackTrace();
         }
 
-        assertEquals(listSize - 2, SpaetiRepository.getInstance().getSpaetiList().size());
+        assertEquals(listSizeBeforeDeletion - 2, SpaetiRepository.getInstance().getSpaetiList().size());
     }
 }

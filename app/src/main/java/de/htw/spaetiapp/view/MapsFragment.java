@@ -45,6 +45,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.HashMap;
 
 import de.htw.spaetiapp.R;
+import de.htw.spaetiapp.models.MarkerRepository;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.util.ToastResponse;
 
@@ -60,7 +61,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private Animation scaleUp;
     private Animation scaleDown;
     private Marker selectedMarker;
-    private HashMap<String, Marker> markerMap;
+    //    private HashMap<String, Marker> markerMap;
     private final int MY_REQUEST_INT = 177;
     private final int REQUEST_CHECK_SETTINGS = 100;
 
@@ -78,7 +79,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             mMapView.getMapAsync(this);
         }
 
-        markerMap = new HashMap<>();
+        //  markerMap = new HashMap<>();
 
         // Get the button view
         View locationButton = ((View) mView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
@@ -166,32 +167,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     private void setDeleteDialog() {
-        AlertDialog dialog =  new AlertDialog.Builder(getActivity()).setMessage("Are you sure you want to delete this Späti?")
-                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                     public void onClick(DialogInterface dialog, int id) {
-                         ((MainActivity) getActivity()).removeSpaeti(((Spaeti) selectedMarker.getTag()).get_id());
-                     }
-                 })
-                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                     public void onClick(DialogInterface dialog, int id) {
-                     }
-                 }).create();
+        AlertDialog dialog = new AlertDialog.Builder(getActivity()).setMessage("Are you sure you want to delete this Späti?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ((MainActivity) getActivity()).removeSpaeti(((Spaeti) selectedMarker.getTag()).get_id());
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                }).create();
         dialog.show();
-        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(getActivity(),android.R.color.holo_green_light));
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getActivity(),android.R.color.holo_green_light));
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_light));
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_light));
     }
 
-    void removeMarker(String id, boolean isBroadcast) {
-        Log.i("RemoveMarker", markerMap.keySet().toString());
-        Log.i("MapsFragmentRemove","+++++++++++++++++"+ id);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Marker marker = markerMap.get(id);
+    void removeMarker(Marker marker, boolean isBroadcast) {
         marker.remove();
-        markerMap.remove(id);
         if (!isBroadcast) {
             makeFloatingButtonsDisappear();
         }
@@ -262,7 +254,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     void addMarker(Spaeti obj) {
         Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLatitude(), obj.getLongitude())));
         marker.setTag(obj);
-        markerMap.put(obj.get_id(), marker);
+        ((MainActivity) getContext()).getAddSpaetiController().addMarkerToMarkerRepo(obj.get_id(), marker);
     }
 
     @Override

@@ -20,7 +20,6 @@ public class SocketIO {
     private static SocketIO instance = null;
     private Socket mSocket;
     private AddSpaetiController addController;
-
     private UpdateSpaetiController updateController;
     private DeleteSpaetiController deleteController;
     private final String URL = "http://3.84.38.0:52300";
@@ -60,12 +59,6 @@ public class SocketIO {
         }
     };
 
-    private Emitter.Listener spaetiNotFound = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            updateController.spaetiNotFound();
-        }
-    };
 
     private Emitter.Listener spaetiUpdateSuccess = new Emitter.Listener() {
         @Override
@@ -173,7 +166,6 @@ public class SocketIO {
         mSocket.on("addedSpaetiSuccessfully", spaetiAddSuccess);
         mSocket.on("addedSpaetiSuccessfullyBroadcast", spaetiAddSuccessBroadcast);
         mSocket.on("couldNotAddSpaeti", spaetiAddNotSuccess);
-        mSocket.on("couldNotFindSpaetiInDB", spaetiNotFound);
         mSocket.on("updatedSpaetiSuccessfully", spaetiUpdateSuccess);
         mSocket.on("updatedSpaetiSuccessfullyBroadcast", spaetiUpdateSuccessBroadcast);
         mSocket.on("couldNotUpdateSpaeti", spaetiUpdateNotSuccess);

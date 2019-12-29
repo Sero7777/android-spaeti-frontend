@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import de.htw.spaetiapp.R;
@@ -35,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private final FragmentManager fm = getSupportFragmentManager();
     private Fragment activeFragment;
     private boolean isLatestFragmentMap;
-    private static SpaetiRepository repo;
     private Menu menu;
     private ConnectionController connectionController;
     private AddSpaetiController addSpaetiController;
@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         activeFragment = mapsFragment;
         isLatestFragmentMap = true;
-        repo = SpaetiRepository.getInstance();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         menu = bottomNavigationView.getMenu();
@@ -134,11 +133,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void addMarkerToMap(Spaeti s, boolean isBroadcast) {
+    public void addMarkerToMap(Spaeti spaeti, boolean isBroadcast) {
         ((ListFragment) listFragment).notifyAdapter();
         MapsFragment fragment = (MapsFragment) mapsFragment;
         clearAddFragmentFields();
-        fragment.addMarker(s);
+        fragment.addMarker(spaeti);
         if (!isBroadcast) {
             hideKeyboard();
         }
@@ -164,17 +163,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void removeMarkerFromMap(String id, boolean isBroadcast) {
+    public void removeMarkerFromMap(Marker marker, boolean isBroadcast) {
         MapsFragment fragment = (MapsFragment) mapsFragment;
         ((ListFragment) listFragment).notifyAdapter();
-        fragment.removeMarker(id, isBroadcast);
+        fragment.removeMarker(marker, isBroadcast);
     }
 
-    public void updateMarkerOnMap(Spaeti spaeti, boolean isBroadcast) {
+    public void updateMarkerOnMap(Spaeti spaeti, boolean isBroadcast, Marker marker) {
         ((ListFragment) listFragment).notifyAdapter();
         MapsFragment fragment = (MapsFragment) mapsFragment;
         clearUpdateFragmentFields();
-        fragment.removeMarker(spaeti.get_id(), isBroadcast);
+        fragment.removeMarker(marker, isBroadcast);
         fragment.addMarker(spaeti);
         if (!isBroadcast) {
             hideKeyboard();

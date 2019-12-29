@@ -1,10 +1,12 @@
 package de.htw.spaetiapp.controller;
 
+import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.htw.spaetiapp.models.MarkerRepository;
 import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
@@ -16,12 +18,14 @@ public class UpdateSpaetiController {
     private MainActivity mainActivity;
     private SocketIO socketIO;
     private Gson gson;
-    private SpaetiRepository repository;
+    private SpaetiRepository spaetiRepository;
+    private MarkerRepository markerRepository;
 
     public UpdateSpaetiController(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
         this.socketIO = SocketIO.getInstance();
-        this.repository = SpaetiRepository.getInstance();
+        this.spaetiRepository = SpaetiRepository.getInstance();
+        this.markerRepository = MarkerRepository.getInstance();
         gson = new Gson();
     }
 
@@ -31,13 +35,11 @@ public class UpdateSpaetiController {
         mainActivity.showMainView();
     }
 
-    public void spaetiNotFound() {
-    }
 
     public void updatedSpaeti(JSONObject data, boolean isBroadcast) {
         Spaeti spaeti = gson.fromJson(data.toString(), Spaeti.class);
 
-        if (!repository.updateSpaeti(spaeti)) {
+        if (!spaetiRepository.updateSpaeti(spaeti)) {
             if (!isBroadcast) {
                 makeToastUpdateSpaetiUnsuccessful(ToastResponse.SPAETI_UPDATE_REPO_UNSUCCESSFUL);
             }
@@ -49,7 +51,7 @@ public class UpdateSpaetiController {
     private void makeToastUpdateSpaetiSuccessful(boolean isBroadcast, Spaeti spaeti) {
         mainActivity.runOnUiThread(new Runnable() {
             public void run() {
-                mainActivity.updateMarkerOnMap(spaeti, isBroadcast);
+                mainActivity.updateMarkerOnMap(spaeti, isBroadcast, (Marker)markerRepository.getMarkerMap().get(spaeti.get_id()));
                 if(!isBroadcast) {
                     mainActivity.toastInMap(ToastResponse.SPAETI_UPDATE_SUCCESSFUL);
                 }

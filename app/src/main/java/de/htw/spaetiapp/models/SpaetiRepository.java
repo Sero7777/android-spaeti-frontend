@@ -24,7 +24,6 @@ public class SpaetiRepository {
 
     public boolean addSpaeti(Spaeti spaeti) {
         if (null != spaeti) return spaetiList.add(spaeti);
-
         return false;
     }
 

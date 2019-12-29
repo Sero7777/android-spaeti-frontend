@@ -1,7 +1,9 @@
 package de.htw.spaetiapp.controller;
 
+import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 
+import de.htw.spaetiapp.models.MarkerRepository;
 import de.htw.spaetiapp.models.SpaetiRepository;
 import de.htw.spaetiapp.networking.SocketIO;
 import de.htw.spaetiapp.util.ToastResponse;
@@ -11,13 +13,15 @@ public class DeleteSpaetiController {
 
     private SocketIO socketIO;
     private Gson gson;
-    private SpaetiRepository repository;
+    private SpaetiRepository spaetiRepository;
+    private MarkerRepository markerRepository;
     private MainActivity mainActivity;
 
     public DeleteSpaetiController(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
         this.socketIO = SocketIO.getInstance();
-        this.repository = SpaetiRepository.getInstance();
+        this.spaetiRepository = SpaetiRepository.getInstance();
+        this.markerRepository = MarkerRepository.getInstance();
         gson = new Gson();
     }
 
@@ -26,20 +30,22 @@ public class DeleteSpaetiController {
     }
 
     public void spaetiDeleted(String id, boolean isBroadcast) {
-        if (!repository.deleteSpaeti(id)) {
+        if (!spaetiRepository.deleteSpaeti(id)) {
             if (!isBroadcast) {
                 makeToastDeleteSpaetiUnsuccessful(ToastResponse.SPAETI_DELETE_REPO_UNSUCCESSFUL);
             }
         } else {
-            makeToastDeleteSpaetiSucessful(id, isBroadcast);
+            Marker marker = (Marker) markerRepository.getMarkerMap().get(id);
+            markerRepository.deleteMarkerFromMap(id);
+            makeToastDeleteSpaetiSucessful(marker, isBroadcast);
         }
     }
 
-    private void makeToastDeleteSpaetiSucessful(String id, boolean isBroadcast) {
+    private void makeToastDeleteSpaetiSucessful(Marker marker, boolean isBroadcast) {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mainActivity.removeMarkerFromMap(id, isBroadcast);
+                mainActivity.removeMarkerFromMap(marker, isBroadcast);
                 if (!isBroadcast) {
                     mainActivity.toastInMap(ToastResponse.SPAETI_DELETE_SUCCESSFUL);
                 }
@@ -59,4 +65,5 @@ public class DeleteSpaetiController {
     public void spaetiNotDeleted() {
         makeToastDeleteSpaetiUnsuccessful(ToastResponse.SPAETI_DELETE_SERVER_UNSUCCESSFUL);
     }
+
 }
