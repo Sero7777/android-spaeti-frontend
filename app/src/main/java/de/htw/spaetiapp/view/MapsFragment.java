@@ -254,6 +254,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     void addMarker(Spaeti obj) {
         Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(obj.getLatitude(), obj.getLongitude())));
         marker.setTag(obj);
+        marker.setTitle(obj.getName());
         ((MainActivity) getContext()).getAddSpaetiController().addMarkerToMarkerRepo(obj.get_id(), marker);
     }
 
