@@ -2,7 +2,6 @@ package de.htw.spaetiapp.view;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import de.htw.spaetiapp.R;
-import de.htw.spaetiapp.adapters.ListAdapter;
+import de.htw.spaetiapp.view.adapters.ListAdapter;
 import de.htw.spaetiapp.models.SpaetiRepository;
 
 public class ListFragment extends Fragment {

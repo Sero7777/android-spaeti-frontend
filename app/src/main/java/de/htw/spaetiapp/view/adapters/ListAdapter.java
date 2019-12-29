@@ -1,4 +1,4 @@
-package de.htw.spaetiapp.adapters;
+package de.htw.spaetiapp.view.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
