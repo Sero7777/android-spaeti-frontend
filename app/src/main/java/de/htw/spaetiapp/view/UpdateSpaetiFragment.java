@@ -23,7 +23,7 @@ import de.htw.spaetiapp.models.Spaeti;
 import de.htw.spaetiapp.util.AddressInspector;
 import de.htw.spaetiapp.util.InputValidator;
 
-public class UpdateSpaetiFragment extends Fragment implements EditSpaetiFragment{
+public class UpdateSpaetiFragment extends Fragment implements EditSpaetiFragment {
 
     private TextView openT;
     private TextView closeT;
@@ -62,17 +62,28 @@ public class UpdateSpaetiFragment extends Fragment implements EditSpaetiFragment
             description.setText(spaeti.getDescription());
 
         String[] streetAndNumber = spaeti.getStreetName().split(" ");
+        int listSize = streetAndNumber.length;
 
-        address.setText(streetAndNumber[0]);
-        number.setText(streetAndNumber[1]);
+        address.setText(retrieveStreetName(streetAndNumber, listSize));
+        number.setText(streetAndNumber[listSize - 1]);
         city.setText(spaeti.getCity());
         zip.setText(Integer.toString(spaeti.getZip()), TextView.BufferType.EDITABLE);
         country.setText(spaeti.getCountry());
     }
 
+    private String retrieveStreetName(String[] streetAndNumber, int listSize) {
+        String addressString = "";
+
+        for (int i = 0; i < listSize - 1; i++) {
+            addressString += streetAndNumber[i] + " ";
+        }
+        return addressString;
+    }
+
     void clearFields() {
         InputValidator.clearFields(updateSpaetiFragment);
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

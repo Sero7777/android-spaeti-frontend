@@ -276,19 +276,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-//    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
-//        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_bottlemarker2);
-//        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
-//        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
-//
-//        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
-//
-//        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bitmap);
-//        background.draw(canvas);
-//        vectorDrawable.draw(canvas);
-//        return BitmapDescriptorFactory.fromBitmap(bitmap);
-//    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
